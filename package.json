@@ -1,0 +1,17 @@
+{
+  "name": "sudongpo",
+  "version": "1.0.0",
+  "description": "This file should be putted in ~/package.json",
+  "main": "index.js",
+  "dependencies": {
+    "msbuild": "^1.1.2",
+    "coc-ccls": "^0.0.4",
+    "typescript": "^3.5.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "xieshiyao",
+  "license": "ISC"
+}
