@@ -379,38 +379,6 @@ tnoremap <A-z> <Cmd>call <SID>close_previous_window()<CR>
 inoremap <A-z> <Cmd>call <SID>close_previous_window()<CR>
 nnoremap <A-z> <Cmd>call <SID>close_previous_window()<CR>
 
-if has('mac')
-	function! s:macAlt(from,to)
-		exe 'tmap' a:from '<A-'.a:to.'>'
-		exe 'imap' a:from '<A-'.a:to.'>'
-		exe 'nmap' a:from '<A-'.a:to.'>'
-	endfunction
-
-	let MacAltMap={'˙':'h',
-				\'∆':'j',
-				\'˚':'k',
-				\'¬':'l',
-				\'π':'p',
-				\'ß':'s',
-				\'Ó':'H',
-				\'Ò':'L',
-				\'Ô':'J',
-				\'':'k',
-				\'—':'_',
-				\'˘':'>',
-				\'¯':'<',
-				\'≠':'=',
-				\'–':'-',
-				\'±':'+',
-				\'ø':'o',
-				\'´':'e',
-				\'≈':'x',
-				\}
-
-	for key in keys(MacAltMap)
-		call <SID>macAlt(key,MacAltMap[key])
-	endfor
-endif
 
 "[ use `d` and `u` to move and `q` to exit ] [ for man, help and terminal ]
 autocmd FileType man,help :nnoremap <nowait><buffer>d 
