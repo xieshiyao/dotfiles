@@ -1,10 +1,12 @@
 *
 
+!README.md
+!.gitignore
+
 !.bash_profile
 !.bashrc
 !.clang-format
 !.gitconfig
-!.gitignore
 !.inputrc
 !.vimrc
 !package.json
