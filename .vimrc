@@ -389,10 +389,15 @@ if has('nvim')
 	autocmd TermOpen * :nnoremap <buffer>u 
 	autocmd TermOpen * :nnoremap <buffer>q ZQ
 endif
-autocmd FileType man :nnoremap <buffer>- /^\s\+\zs-
+"autocmd FileType man :nnoremap <buffer>- /^\s\+\zs-
+"autocmd FileType man :nnoremap <buffer>- /\v^\s+\zs(--?[a-zA-Z-]+,\s*)*\zs-
+autocmd FileType man :nnoremap <buffer>- /\v^\s+\zs
+			\(
+				\--?[a-zA-Z-]+
+				\[ =]?[=<>()<bar>[\]a-zA-Z-]*
+				\,\s*
+			\)*\zs-
 autocmd FileType man :nnoremap <buffer><Space> /^\s\+\zs
-" TODO search '--interactive' in '-i, --interactive'
-	" and '--ignore-date' in '--committer-date-is-author-date, --ignore-date'
 
 
 "[ User command ]
