@@ -24,10 +24,6 @@ export PS1
 #alias 'gcc=gcc -std=c99'
 alias 'cc=cc -std=c99'
 
-# TODO install vimx
-#alias 'view=vimx -R' # The default view is queer, so I replace it.
-#alias 'vim=vimx' # vim does't support some features like xtrem clipboard; it sucks.
-#alias 'Vim=vimx -R -'
 #alias 'ECHO=echo' # makes it easier to show environment variables.
 
 EDITOR=nvim
@@ -61,7 +57,6 @@ function addpath()
 }
 addpath /usr/local/python3/bin 
 addpath /usr/local/go/bin 
-addpath /home/sudongpo/Qt/5.12.0/gcc_64/bin
 addpath /home/sudongpo/bin
 
 addpath "$HOME/.local/bin"
@@ -136,7 +131,7 @@ function showpath()
 
 export -f showpath
 #md=/home/sudongpo/.vim/bundle/vim-instant-markdown/after/ftplugin/markdown
-export plugin=/home/sudongpo/.vim/bundle
+export plugin=/home/sudongpo/.vim/plugged
 export swp=~/.local/share/nvim/swap
 
 cd..()
