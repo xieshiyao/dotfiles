@@ -390,8 +390,8 @@ if has('nvim')
 	autocmd TermOpen * :nnoremap <buffer>q ZQ
 endif
 "autocmd FileType man :nnoremap <buffer>- /^\s\+\zs-
-"autocmd FileType man :nnoremap <buffer>- /\v^\s+\zs(--?[a-zA-Z-]+,\s*)*\zs-
-autocmd FileType man :nnoremap <buffer>- /\v^\s+\zs
+"autocmd FileType man :nnoremap <buffer>- /\v^\s+(--?[a-zA-Z-]+,\s*)*\zs-
+autocmd FileType man :nnoremap <buffer>- /\v^\s+
 			\(
 				\--?[a-zA-Z-]+
 				\[ =]?[=<>()<bar>[\]a-zA-Z-]*
