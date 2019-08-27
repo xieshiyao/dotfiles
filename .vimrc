@@ -33,7 +33,7 @@ syntax on
 
 "nnoremap <silent> <Esc> :nohlsearch<CR>
 "Stop highlighting temporary and clean all messages in command line
-nmap <silent><Esc> <Cmd>nohlsearch<bar>echo ''<CR><Plug>(coc-float-hide)
+nmap <silent><Esc> <Cmd>nohlsearch<bar>echo ''<CR>
 "TODO Jx is buggy, fix it
 nnoremap J	Jx
 "nnoremap <leader>f gg=G
@@ -198,7 +198,10 @@ call plug#begin('~/.vim/plugged')
 		nnoremap <expr><C-f> coc#util#has_float() ? coc#util#float_scroll(1) : "\<C-f>"
 		nnoremap <expr><C-b> coc#util#has_float() ? coc#util#float_scroll(0) : "\<C-b>"
 
-		nnoremap <Tab> <Cmd>call CocAction('doHover')<CR>
+		nnoremap <expr><Tab> "\<Cmd>call " . (coc#util#has_float() 
+					\? "coc#util#float_hide()"
+					\: "CocAction('doHover')" 
+					\) . "<CR>"
 
 		nmap <silent>[e <Plug>(coc-diagnostic-prev)
 		nmap <silent>]e <Plug>(coc-diagnostic-next)
