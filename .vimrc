@@ -142,7 +142,8 @@ nnoremap <F4> <Cmd>cn<CR>
 autocmd FileType vim :nnoremap	<buffer><F5>		<Cmd>silent update<bar>so %<CR>
 
 highlight link ImportantComment Todo
-autocmd FileType vim :match ImportantComment /\(".\{-}\)\@<=\[ [^\]]* \]/
+"autocmd FileType vim :match ImportantComment /\(".\{-}\)\@<=\[ [^\]]* \]/
+autocmd FileType vim :match ImportantComment /\v(".*)@<=\[ [^\]]* \]/
 autocmd FileType vim :nnoremap \[   /\(".\{-}\)\@<=\[ [^\]]*\c[^\]]* \]
 			\<Left><Left><Left><Left><Left><Left><Left><Left><Left>
 
@@ -384,12 +385,31 @@ if has('nvim')
 endif
 "autocmd FileType man :nnoremap <buffer>- /^\s\+\zs-
 "autocmd FileType man :nnoremap <buffer>- /\v^\s+(--?[a-zA-Z-]+,\s*)*\zs-
+"autocmd FileType man :nnoremap <buffer>- /\v^\s+
+"			\%(
+"				\--?[a-zA-Z-]+
+"				\[ =]?[=<>()<bar>[\]a-zA-Z-]*
+"				\,\s*
+"			\)*\zs-
 autocmd FileType man :nnoremap <buffer>- /\v^\s+
-			\(
-				\--?[a-zA-Z-]+
-				\[ =]?[=<>()<bar>[\]a-zA-Z-]*
-				\,\s*
+			\%(
+				\[+-][^,]+,\s*
 			\)*\zs-
+"syntax match manOptionDesc display /\v(^\s+
+autocmd FileType man match manOptionDesc /\v
+			\(^\s+
+				\%([+-][^,]+,\s*)*
+			\)@<=[+-]-?[[<]?[^[< =]+/
+"TODO commit this to neovim repo. (runtime/syntax/man.vim)
+"This regex is complicated because it has to deal with something like:
+"	-M[<n>], --find-renames[=<n>]
+"	--diff-filter=[(A|C|D|M|R|T|U|X|B)...[*]]
+"	--[no-]force-with-lease, --force-with-lease=<refname>, --force-with-lease=<refname>:<expect>
+"	--[no-]signed, --signed=(true|false|if-asked)
+"	-U<n>, --unified=<n>
+"	-S<string>
+"	-1 --base, -2 --ours, -3 --theirs
+"git-push(1) and git-log(1) is a good man page to test highlight
 autocmd FileType man :nnoremap <buffer><Space> /^\s\+\zs
 
 
