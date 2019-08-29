@@ -315,17 +315,6 @@ autocmd FileType go :nnoremap <buffer><leader>I :GoImports<CR>
 "autocmd FileType go :nnoremap <buffer><leader>f :GoFmt<CR>
 "autocmd BufWritePost *.go !gofmt -w %
 
-"[ +clipboard ]
-" " Copy to clipboard
-vnoremap <leader>y  "+y
-nnoremap <leader>y  "+y
-nnoremap <leader>Y  "+Y
-" " Paste from clipboard
-nnoremap <leader>p "+p
-nnoremap <leader>P "+P
-vnoremap <leader>p "+p
-vnoremap <leader>P "+P
-
 "[ Alt key ]
 function! s:setAlt(key,...)
 	if a:0
