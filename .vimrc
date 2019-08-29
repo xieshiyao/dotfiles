@@ -484,21 +484,11 @@ autocmd BufNewFile *.c 0r ~/.vim/skeleton.c | norm! Gdd5gg
 
 
 " [ test zone ]
-"autocmd FocusLost * call setline(line("$")+1,mode())
-"autocmd FocusLost * if 1 | call setline(line("$")+1,"if1") | else |  call setline(line("$")+1,"if0") | endif
-"autocmd FocusLost * if index(['v','V',''],mode())!=-1 | exe 'norm "*ygv' | endif
-autocmd FocusLost * exe index(['v','V',''],mode())!=-1 ? 'norm "*ygv' : ''
-" <ajfiowef> <fjwioefje>   <fjwiew> < w here jeiof >   <><fjeiow>
-"
-" [shi't]   [bi'tch]
-"echo 'abcd'     'bjsaioe'
-"nnoremap di< <Cmd>exe getline('.')[col('.')-1]=='<' ? 'norm f>' <Enter>
 
 
 "[ web development ] [ html javascript xhtml ]
 autocmd Filetype html,javascript setl tabstop=8 softtabstop=0 expandtab shiftwidth=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 
-"autocmd FileType html :nnoremap <silent><buffer><F5>		<Cmd>update<CR><Cmd>!open -a /Applications/Firefox.app %<CR>
 if has('mac')
 	autocmd FileType xhtml,html :nnoremap <buffer><F5>	<Cmd>update<bar>call jobstart(['open','-a','/Applications/Firefox.app',@%])<CR>
 else
@@ -506,11 +496,3 @@ else
 endif
 
 autocmd Filetype javascript nnoremap <F5> <Cmd>update %<bar>Te node %<CR>
-
-"function s:testS()
-"	echo "hello from s:testS"
-"endfunction
-"
-"call s:testS()
-"
-"nnoremap <F7> <Cmd>call <SID>testS()<CR>
