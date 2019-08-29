@@ -109,6 +109,32 @@ if has('nvim')
 	imap <F17> <S-F5>
 endif
 
+"[ utils ]
+function! Setline(lnum,text)
+	let lines=split(a:text,"\n")
+	call setline(a:lnum,lines[0])
+	if len(lines)>1
+		call append(a:lnum,lines[1:])
+	endif
+endfunction
+
+let g:mark2pos={}
+
+function! SaveMarks(marks)
+	for m in split(a:marks,'\zs')
+		if m !~ '\s'
+			let g:mark2pos[m]=getpos("'".m)
+		endif
+	endfor
+endfunction
+
+function! RestoreMarks()
+	for [m,p] in items(g:mark2pos)
+		call setpos("'".m,p)
+		unlet g:mark2pos[m]
+	endfor
+endfunction
+
 "[ abbreviations ]
 "TODO change ?ab to ?noreab
 iabbrev helloworld #include<stdio.h><CR>int main(void)<CR>{<CR>printf("Hello, world!\n");<CR>return 0;<CR>}<Esc>gg
@@ -269,23 +295,6 @@ call plug#begin('~/.vim/plugged')
 	"Plug 'mhinz/vim-startify'
 
 call plug#end()
-
-let g:mark2pos={}
-
-function! SaveMarks(marks)
-	for m in split(a:marks,'\zs')
-		if m !~ '\s'
-			let g:mark2pos[m]=getpos("'".m)
-		endif
-	endfor
-endfunction
-
-function! RestoreMarks()
-	for [m,p] in items(g:mark2pos)
-		call setpos("'".m,p)
-		unlet g:mark2pos[m]
-	endfor
-endfunction
 
 function! OpenGithub()
 	let repo=getline(line("."))[col("'<")-1:col("'>")-1]
@@ -483,7 +492,7 @@ autocmd BufWritePre  *.py call CocAction('format')
 autocmd BufNewFile *.c 0r ~/.vim/skeleton.c | norm! Gdd5gg
 
 
-" [ test zone ]
+"[ test zone ]
 
 
 "[ web development ] [ html javascript xhtml ]
