@@ -29,7 +29,8 @@
 		"markdown",
 		"",
 		"qf",
-		"nerdtree"
+		"nerdtree",
+		"tex"
 	],
 	"coc.preferences.formatOnType": true
 }

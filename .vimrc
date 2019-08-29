@@ -231,7 +231,8 @@ call plug#begin('~/.vim/plugged')
 
 		let g:coc_global_extensions=['coc-json','coc-tsserver','coc-python','coc-css',
 					\'coc-vimlsp','coc-highlight',
-					\'coc-snippets','coc-html','coc-go','coc-ultisnips','coc-marketplace']
+					\'coc-snippets','coc-html','coc-go','coc-ultisnips','coc-marketplace',
+					\'coc-vimtex']
 
 		"inoremap <expr><cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
@@ -259,6 +260,8 @@ call plug#begin('~/.vim/plugged')
 		"let g:UltiSnipsJumpForwardTrigger = '<C-j>'
 		"let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
 
+	Plug 'lervag/vimtex'
+		let g:tex_flavor='latex'
 	"for web development
 	Plug 'tpope/vim-surround'
 	"Plug 'mattn/emmet-vim' "for html expansion
