@@ -364,7 +364,7 @@ call <SID>setAlt('b')
 
 "call <SID>setAlt('z',1) "this will close preview window
 "close previous window
-function s:close_previous_window()
+function! s:close_previous_window()
 	"let current_winnr=winnr()
 	let prev_winnr=winnr('#')
 	if prev_winnr
