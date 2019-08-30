@@ -23,6 +23,7 @@ set confirm
 set clipboard+=unnamedplus
 
 set wildmenu
+set foldmethod=syntax
 "If you prefer the <Left> and <Right> keys to move the cursor instead
 "of selecting a different match, use this:
 cnoremap <Left> <Space><BS><Left>
@@ -30,17 +31,16 @@ cnoremap <Right> <Space><BS><Right>
 
 syntax on
 
-"nnoremap <silent> <Esc> :nohlsearch<CR>
 "Stop highlighting temporary and clean all messages in command line
-nmap <silent><Esc> <Cmd>nohlsearch<bar>echo ''<CR>
-"TODO Jx is buggy, fix it
-nnoremap J	Jx
+nnoremap <Esc> <Cmd>nohlsearch<bar>echo ''<CR>
+nnoremap J	J<Cmd>exe getline(".")[col(".")-1]==' '?'norm x':''<CR>
 "nnoremap <leader>f gg=G
 nnoremap <F12> @a
 nnoremap z= <Cmd>setlocal spell<CR>z=
+nnoremap <C-S> <Cmd>update<CR>
 
 "write the file in insert mode
-inoremap <C-S> <Cmd>update<CR>
+inoremap <C-S> <Esc><Cmd>update<CR>
 inoremap <C-A> <C-O>^
 inoremap <C-E> <C-O>$
 
@@ -110,6 +110,7 @@ if has('nvim')
 endif
 
 "[ utils ]
+"TODO ( getreg() setreg() )
 function! Setline(lnum,text)
 	let lines=split(a:text,"\n")
 	call setline(a:lnum,lines[0])
@@ -167,9 +168,8 @@ nnoremap <F4> <Cmd>cn<CR>
 autocmd FileType vim :nnoremap	<buffer><F5>		<Cmd>silent update<bar>so %<CR>
 
 highlight link ImportantComment Todo
-"autocmd FileType vim :match ImportantComment /\(".\{-}\)\@<=\[ [^\]]* \]/
 autocmd FileType vim :match ImportantComment /\v(".*)@<=\[ [^\]]* \]/
-autocmd FileType vim :nnoremap \[   /\(".\{-}\)\@<=\[ [^\]]*\c[^\]]* \]
+autocmd FileType vim :nnoremap <leader>s   /\(".\{-}\)\@<=\[ [^\]]*\c[^\]]* \]
 			\<Left><Left><Left><Left><Left><Left><Left><Left><Left>
 
 "[ Run codes ]
@@ -202,9 +202,6 @@ autocmd FileType vim,help,python :nnoremap <buffer><leader>R	<Cmd>let b:winview=
 												\<bar>endif<CR>
 
 " [ vim-plug ] [ plugins ]
-"autocmd FileType vim nnoremap <leader>gx 
-"TODO ( getreg() setreg() )
-
 call plug#begin('~/.vim/plugged')
 
 	Plug 'neoclide/coc.nvim',{'branch': 'release'}
@@ -288,6 +285,8 @@ call plug#begin('~/.vim/plugged')
 
 	Plug 'lervag/vimtex'
 		let g:tex_flavor='latex'
+	Plug 'wellle/targets.vim'
+
 	"for web development
 	Plug 'tpope/vim-surround'
 	"Plug 'mattn/emmet-vim' "for html expansion
