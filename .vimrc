@@ -217,13 +217,13 @@ call plug#begin('~/.vim/plugged')
 	Plug 'neoclide/coc.nvim',{'branch': 'release'}
 		inoremap <silent><expr> <TAB>
 		  \ pumvisible() ? "\<C-n>" :
-		  \ <SID>check_back_space() ? "\<TAB>" :
+		  \ <SID>check_back_no_identifier() ? "\<TAB>" :
 		  \ coc#refresh()
 		inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-		function! s:check_back_space() abort
+		function! s:check_back_no_identifier() abort
 		  let col = col('.') - 1
-		  return !col || getline('.')[col - 1]  =~# '\s'
+		  return !col || getline('.')[col - 1]  !~# '\w\|\.'
 		endfunction
 
 		inoremap <silent><expr><C-Space> coc#refresh()
