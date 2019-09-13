@@ -163,6 +163,8 @@ autocmd FileType c,cpp,yacc,go,javascript :noremap <buffer>		<C-V>^o^I// <Esc>
 autocmd FileType c,cpp,yacc,go,javascript :noremap <buffer><C-?>	<C-V>^o^llx<Esc>
 autocmd FileType vim :noremap <buffer>				<C-V>^o^I"<Esc>
 autocmd FileType vim :noremap <buffer><C-?>				<C-V>^o^x<Esc>
+autocmd FileType tex :noremap <buffer>				<C-V>^o^I% <Esc>
+autocmd FileType tex :noremap <buffer><C-?>				<C-V>^o^x<Esc>
 iab   /*   /* */<Esc>hhi
 
 "[ for C debug ]
@@ -504,3 +506,19 @@ else
 endif
 
 autocmd Filetype javascript nnoremap <F5> <Cmd>update %<bar>Te node %<CR>
+
+" [ latex ]
+autocmd FileType tex let b:AutoPairs={
+			\'(':')',
+			\'[':']',
+			\ '{':'}',
+			\"'":"'",
+			\'"':'"',
+			\ '"""':'"""',
+			\ "'''":"'''",
+			\
+			\ '$':'$',
+			\}
+let g:tex_fold_enabled=1
+"autocmd FileType tex inoremap <buffer>\[   \[  \]<left><left><left>
+"TODO don't map \[, map \!!!
