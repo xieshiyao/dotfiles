@@ -47,6 +47,10 @@ inoremap <C-E> <C-O>$
 set autoread "When a file has been detected to have been changed outside of Vim and
              "it has not been change inside of Vim, automatically read it again
              "instead of asking me.
+function! MyCheckModified(timer)
+	checktime
+endfunction
+call timer_start(1000,'MyCheckModified',{'repeat':-1})
 
 "TODO don't match when I am in insert mode
 "highlight BadWhitespace ctermbg=yellow
