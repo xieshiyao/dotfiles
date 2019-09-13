@@ -22,7 +22,7 @@
 			}
 		}
 	},
-	"python.jediEnabled": false,
+	"python.jediEnabled": true,
 	"codeLens.enable": true,
 	"highlight.disableLanguages":[
 		"text",
@@ -30,7 +30,11 @@
 		"",
 		"qf",
 		"nerdtree",
-		"tex"
+		"tex",
+		"man",
+		"gitcommit",
+		"json",
+		"fugitive"
 	],
 	"coc.preferences.formatOnType": true
 }
