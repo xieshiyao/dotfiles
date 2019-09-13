@@ -33,10 +33,10 @@ syntax on
 
 "Stop highlighting temporary and clean all messages in command line
 nnoremap <Esc> <Cmd>nohlsearch<bar>echo ''<CR>
-nnoremap J	J<Cmd>exe getline(".")[col(".")-1]==' '?'norm x':''<CR>
+nnoremap J	J<Cmd>exe CurrentChar()==' '?'norm! x':''<CR>
 "nnoremap <leader>f gg=G
 nnoremap <F12> @a
-nnoremap z= <Cmd>setlocal spell<CR>z=
+nnoremap z= <Cmd>exe 'setl' CurrentChar() =~ '\w' ? 'spell<bar>norm! z=' : 'nospell'<CR>
 nnoremap <C-S> <Cmd>update<CR>
 
 "write the file in insert mode
@@ -56,8 +56,8 @@ autocmd FileType man exe len(@%) ? "" : "on"
 
 autocmd BufRead * :exe line("'.")>0 
 							\? line("'.")>line("$") 
-								\? "norm Gzz" 
-								\: "norm '.zz" 
+								\? "norm! Gzz" 
+								\: "norm! '.zz" 
 							\: ''
 "rename
 "noremap <leader>R :s/\<\>//g<Left><Left>
@@ -134,6 +134,10 @@ function! RestoreMarks()
 		call setpos("'".m,p)
 		unlet g:mark2pos[m]
 	endfor
+endfunction
+
+function! CurrentChar()
+	return getline(".")[col(".")-1]
 endfunction
 
 "[ abbreviations ]
@@ -356,8 +360,8 @@ call <SID>setAlt('+',1)
 
 call <SID>setAlt('o',1)
 call <SID>setAlt('x') " exchange current window with window N(default: next window)
-call <SID>setAlt('t')
-call <SID>setAlt('b')
+"call <SID>setAlt('t')
+"call <SID>setAlt('b') "readline need this!"
 
 "call <SID>setAlt('z',1) "this will close preview window
 "close previous window
@@ -475,7 +479,7 @@ autocmd BufWritePre  *.py call CocAction('format')
 
 "make this into a plugin.
 "first, :0read skeleton.<filetype>
-"then use 'norm Gdd' to delete last line
+"then use 'norm! Gdd' to delete last line
 "finally :exe <filetype>.vim
 autocmd BufNewFile *.c 0r ~/.vim/skeleton.c | norm! Gdd5gg
 
