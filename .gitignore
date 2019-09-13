@@ -11,6 +11,9 @@
 !.vimrc
 !package.json
 
+!myUltiSnips/
+!myUltiSnips/*
+
 !.config/
 !.config/nvim/
 !.config/nvim/coc-settings.json

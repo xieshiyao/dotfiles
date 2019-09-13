@@ -282,8 +282,11 @@ call plug#begin('~/.vim/plugged')
 	Plug 'vim-scripts/matchit.zip'
 	Plug 'vim-scripts/python_match.vim'
 	Plug 'SirVer/ultisnips'
+		let g:UltiSnipsEditSplit='horizontal'
+		let g:UltiSnipsExpandTrigger='<C-j>'
+		let g:UltiSnipsSnippetsDir='~/myUltiSnips/'
+		let g:UltiSnipsSnippetDirectories=["/home/sudongpo/myUltiSnips", "UltiSnips"]
 		Plug 'honza/vim-snippets'
-		let g:UltiSnipsExpandTrigger = '<C-j>'
 		"let g:UltiSnipsJumpForwardTrigger = '<C-j>'
 		"let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
 
