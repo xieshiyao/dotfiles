@@ -186,7 +186,7 @@ autocmd FileType vim :nnoremap <leader>s   /\(".\{-}\)\@<=\[ [^\]]*\c[^\]]* \]
 function! s:run() range  "execute lines in the range
 	"exe join(filter(getline(a:firstline,a:lastline),' v:val !~ ''^\s*"'' '),"\n")
 
-	let lang2cmd={"help":"so","vim":"so","python":"Te python3"}
+	let lang2cmd={"help":"so","vim":"so","python":"Te python3","javascript":"Te node"}
 	let tmp=tempname()
 	silent exe a:firstline "," a:lastline "w" tmp
 	try
