@@ -36,7 +36,7 @@ nnoremap <Esc> <Cmd>nohlsearch<bar>echo ''<CR>
 nnoremap J	J<Cmd>exe CurrentChar()==' '?'norm! x':''<CR>
 "nnoremap <leader>f gg=G
 nnoremap <F12> @a
-nnoremap z= <Cmd>exe 'setl' CurrentChar() =~ '\w' ? 'spell<bar>norm! z=' : 'nospell'<CR>
+nnoremap <expr>z= "\<Cmd> setl " . (CurrentChar() =~ '\w' ? "spell\<CR>z=" : "nospell\<CR>")
 nnoremap <C-S> <Cmd>update<CR>
 
 "write the file in insert mode
