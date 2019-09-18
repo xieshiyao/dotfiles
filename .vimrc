@@ -48,7 +48,7 @@ set autoread "When a file has been detected to have been changed outside of Vim 
              "it has not been change inside of Vim, automatically read it again
              "instead of asking me.
 function! MyCheckModified(timer)
-	checktime
+	silent! checktime
 endfunction
 call timer_start(1000,'MyCheckModified',{'repeat':-1})
 
