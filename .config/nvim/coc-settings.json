@@ -22,7 +22,7 @@
 			}
 		}
 	},
-	"python.jediEnabled": true,
+	"python.jediEnabled": false,
 	"codeLens.enable": true,
 	"highlight.disableLanguages":[
 		"text",
@@ -34,7 +34,10 @@
 		"man",
 		"gitcommit",
 		"json",
-		"fugitive"
+		"fugitive",
+		"diff",
+		"git",
+		"vim-plug"
 	],
 	"coc.preferences.formatOnType": true
 }
