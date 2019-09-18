@@ -32,7 +32,7 @@ cnoremap <Right> <Space><BS><Right>
 syntax on
 
 "Stop highlighting temporary and clean all messages in command line
-nnoremap <Esc> <Cmd>nohlsearch<bar>echo ''<CR>
+nnoremap <Esc> <Cmd>nohlsearch<bar>echo ''<bar>call coc#util#float_hide()<CR>
 nnoremap J	J<Cmd>exe CurrentChar()==' '?'norm! x':''<CR>
 "nnoremap <leader>f gg=G
 nnoremap <F12> @a
