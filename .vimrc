@@ -239,10 +239,10 @@ call plug#begin('~/.vim/plugged')
 		nmap <silent>[e <Plug>(coc-diagnostic-prev)
 		nmap <silent>]e <Plug>(coc-diagnostic-next)
 
-		nmap <silent><leader>gd <Plug>(coc-definition)
+		nmap <silent>gd <Plug>(coc-definition)
 		nmap <silent><leader>gt <Plug>(coc-type-definition)
-		nmap <silent><leader>gi <Plug>(coc-implementation)
-		nmap <silent><leader>gr <Plug>(coc-references)
+		nmap <silent>gi <Plug>(coc-implementation)
+		nmap <silent>gr <Plug>(coc-references)
 		
 		nmap <silent><leader>F  <Plug>(coc-fix-current)
 
@@ -290,6 +290,7 @@ call plug#begin('~/.vim/plugged')
 	Plug 'SirVer/ultisnips'
 		let g:UltiSnipsEditSplit='horizontal'
 		let g:UltiSnipsExpandTrigger='<C-j>'
+		" TODO use different Trigger for Expansion and JumpForward
 		let g:UltiSnipsSnippetsDir='~/myUltiSnips/'
 		let g:UltiSnipsSnippetDirectories=["/home/sudongpo/myUltiSnips", "UltiSnips"]
 		Plug 'honza/vim-snippets'
