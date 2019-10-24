@@ -13,7 +13,8 @@
 				"compile_commands.json",
 				".vim/",
 				".git/",
-				".hg/"
+				".hg/",
+				"i_am_root"
 			],
 			"initializationOptions": {
 				"cache":{
@@ -22,7 +23,7 @@
 			}
 		}
 	},
-	"python.jediEnabled": false,
+	"python.jediEnabled": true,
 	"codeLens.enable": true,
 	"highlight.disableLanguages":[
 		"text",
@@ -39,5 +40,6 @@
 		"git",
 		"vim-plug"
 	],
-	"coc.preferences.formatOnType": true
+	"coc.preferences.formatOnType": true,
+	"xml.java.home":"/usr/lib/jvm/java-13-openjdk-13.0.0.33-1.rolling.fc30.x86_64"
 }

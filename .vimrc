@@ -10,7 +10,7 @@ set autoindent
 set smartindent
 set cindent
 
-set bg=light
+"set bg=light
 "set pyxversion=3
 
 set number
@@ -38,6 +38,7 @@ nnoremap J	J<Cmd>exe CurrentChar()==' '?'norm! x':''<CR>
 nnoremap <F12> @a
 nnoremap <expr>z= "\<Cmd> setl " . (CurrentChar() =~ '\w' ? "spell\<CR>z=" : "nospell\<CR>")
 nnoremap <C-S> <Cmd>update<CR>
+nnoremap <C-W>K <C-W>sK
 
 "write the file in insert mode
 inoremap <C-S> <Esc><Cmd>update<CR>
@@ -169,7 +170,8 @@ iab   /*   /* */<Esc>hhi
 
 "[ for C debug ]
 nnoremap <C-F5> <Cmd>update<bar>make<CR>
-noremap <F5> <Cmd>exe "Te ./".expand("%:r")<CR>
+imap <C-F5> <Esc><C-F5>
+autocmd FileType c,cpp noremap <buffer><F5> <Cmd>exe "Te ./".expand("%:r")<CR>
 nnoremap <F3> <Cmd>cc<CR>
 nnoremap <F2> <Cmd>cN<CR>
 nnoremap <F4> <Cmd>cn<CR>
@@ -201,6 +203,7 @@ vnoremap <S-F5>		<Cmd>call <SID>run()<CR>|" TODO~~
 nnoremap <S-F5>		<Cmd>call <SID>run()<CR>
 vmap	<leader>r	<S-F5>
 nmap	<leader>r	<S-F5>
+noremap <F5>		<Cmd>update<bar>Te %<CR>
 imap	<F5>		<Esc><F5>
 imap	<S-F5>		<Esc><S-F5>
 
@@ -211,7 +214,7 @@ autocmd FileType vim,help,python :nnoremap <buffer><leader>R	<Cmd>let b:winview=
 													\<bar>call winrestview(b:winview)
 												\<bar>endif<CR>
 
-" [ vim-plug ] [ plugins ]
+" [ vim-plug ] [ plugins ] [ coc ]
 call plug#begin('~/.vim/plugged')
 
 	Plug 'neoclide/coc.nvim',{'branch': 'release'}
@@ -262,10 +265,11 @@ call plug#begin('~/.vim/plugged')
 		nnoremap <LeftMouse> <LeftMouse><Cmd>call CocActionAsync('highlight')<CR>
 		"set termguicolors
 
-		let g:coc_global_extensions=['coc-json','coc-tsserver','coc-python','coc-css',
-					\'coc-vimlsp','coc-highlight',
-					\'coc-snippets','coc-html','coc-go','coc-ultisnips','coc-marketplace',
-					\'coc-vimtex']
+		let g:coc_global_extensions=['coc-json','coc-tsserver','coc-css',
+					\'coc-vimlsp','coc-python','coc-omnisharp','coc-go','coc-java',
+					\'coc-snippets','coc-html','coc-xml','coc-ultisnips',
+					\'coc-marketplace','coc-highlight',
+					\'coc-vimtex','coc-docker']
 
 		"inoremap <expr><cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
@@ -300,6 +304,7 @@ call plug#begin('~/.vim/plugged')
 	Plug 'lervag/vimtex'
 		let g:tex_flavor='latex'
 	Plug 'wellle/targets.vim'
+	Plug 'sheerun/vim-polyglot'
 
 	"for web development
 	Plug 'tpope/vim-surround'
@@ -445,6 +450,8 @@ command! -nargs=0 M exe len(@%) ? "sp" : "e" "makefile"
 
 command! -nargs=0 P to vert sp ~/.vim/plugged/
 
+command! -nargs=0 X silent !chmod u+x %
+
 "rename file
 command! -nargs=1 Re let temp=expand('%:t') | saveas <args> | call delete(expand(temp))
 
@@ -544,3 +551,6 @@ autocmd FileType tex let b:AutoPairs={
 let g:tex_fold_enabled=1
 "autocmd FileType tex inoremap <buffer>\[   \[  \]<left><left><left>
 "TODO don't map \[, map \!!!
+
+" [ bash, shell ]
+autocmd FileType sh nnoremap <buffer><F5>	<Cmd>update<bar>Te bash %<CR>
