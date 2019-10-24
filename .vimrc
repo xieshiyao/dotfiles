@@ -58,7 +58,7 @@ call timer_start(1000,'MyCheckModified',{'repeat':-1})
 
 autocmd FileType man exe len(@%) ? "" : "on"
 
-autocmd BufRead * :exe line("'.")>0 
+autocmd BufRead * exe line("'.")>0 
 							\? line("'.")>line("$") 
 								\? "norm! Gzz" 
 								\: "norm! '.zz" 
@@ -154,17 +154,17 @@ ia csapph #include"csapp.h"<CR>int main(void)<CR>{<CR>return 0:<CR>}<Esc>3ggo
 
 cabbrev to to vert sp
 cabbrev bo bo vert sp
-autocmd FileType make :ia gcc gcc -std=c99
+autocmd FileType make ia gcc gcc -std=c99
 
 "[ make comment ]
 noremap   <C-V>^o^I# <Esc>	|	"default
 noremap <C-?> <C-V>^o^lx		|	"default
-autocmd FileType c,cpp,yacc,go,javascript :noremap <buffer>		<C-V>^o^I// <Esc>
-autocmd FileType c,cpp,yacc,go,javascript :noremap <buffer><C-?>	<C-V>^o^llx<Esc>
-autocmd FileType vim :noremap <buffer>				<C-V>^o^I"<Esc>
-autocmd FileType vim :noremap <buffer><C-?>				<C-V>^o^x<Esc>
-autocmd FileType tex :noremap <buffer>				<C-V>^o^I% <Esc>
-autocmd FileType tex :noremap <buffer><C-?>				<C-V>^o^x<Esc>
+autocmd FileType c,cpp,yacc,go,javascript noremap <buffer>		<C-V>^o^I// <Esc>
+autocmd FileType c,cpp,yacc,go,javascript noremap <buffer><C-?>	<C-V>^o^llx<Esc>
+autocmd FileType vim noremap <buffer>				<C-V>^o^I"<Esc>
+autocmd FileType vim noremap <buffer><C-?>				<C-V>^o^x<Esc>
+autocmd FileType tex noremap <buffer>				<C-V>^o^I% <Esc>
+autocmd FileType tex noremap <buffer><C-?>				<C-V>^o^x<Esc>
 iab   /*   /* */<Esc>hhi
 
 "[ for C debug ]
@@ -175,11 +175,11 @@ nnoremap <F2> <Cmd>cN<CR>
 nnoremap <F4> <Cmd>cn<CR>
 
 "[ for vim script ]
-autocmd FileType vim :nnoremap	<buffer><F5>		<Cmd>silent update<bar>so %<CR>
+autocmd FileType vim nnoremap	<buffer><F5>		<Cmd>silent update<bar>so %<CR>
 
 highlight link ImportantComment Todo
-autocmd FileType vim :match ImportantComment /\v(".*)@<=\[ [^\]]* \]/
-autocmd FileType vim :nnoremap <leader>s   /\(".\{-}\)\@<=\[ [^\]]*\c[^\]]* \]
+autocmd FileType vim match ImportantComment /\v(".*)@<=\[ [^\]]* \]/
+autocmd FileType vim nnoremap <leader>s   /\(".\{-}\)\@<=\[ [^\]]*\c[^\]]* \]
 			\<Left><Left><Left><Left><Left><Left><Left><Left><Left>
 
 "[ Run codes ]
@@ -197,8 +197,8 @@ function! s:run() range  "execute lines in the range
 	endtry
 endfunction
 
-vnoremap <S-F5>		:call <SID>run()<CR>|" TODO~~
-nnoremap <S-F5>		:call <SID>run()<CR>
+vnoremap <S-F5>		<Cmd>call <SID>run()<CR>|" TODO~~
+nnoremap <S-F5>		<Cmd>call <SID>run()<CR>
 vmap	<leader>r	<S-F5>
 nmap	<leader>r	<S-F5>
 imap	<F5>		<Esc><F5>
@@ -321,11 +321,11 @@ nnoremap gh <Cmd>call SaveMarks('<>')<CR>
 
 "[ golang ]
 "let g:go_fmt_command = "goimports"
-autocmd FileType go :nnoremap <buffer><leader>r :GoRun %<CR>
-autocmd FileType go :nnoremap <buffer><leader>b :GoBuild<CR>
-autocmd FileType go :nnoremap <buffer><leader>i :GoImport 
-autocmd FileType go :nnoremap <buffer><leader>I :GoImports<CR>
-"autocmd FileType go :nnoremap <buffer><leader>f :GoFmt<CR>
+autocmd FileType go nnoremap <buffer><leader>r <Cmd>GoRun %<CR>
+autocmd FileType go nnoremap <buffer><leader>b <Cmd>GoBuild<CR>
+autocmd FileType go nnoremap <buffer><leader>i <Cmd>GoImport 
+autocmd FileType go nnoremap <buffer><leader>I <Cmd>GoImports<CR>
+"autocmd FileType go nnoremap <buffer><leader>f <Cmd>GoFmt<CR>
 "autocmd BufWritePost *.go !gofmt -w %
 
 "[ Alt key ]
@@ -387,24 +387,24 @@ inoremap <A-z> <Cmd>call <SID>close_previous_window()<CR>
 nnoremap <A-z> <Cmd>call <SID>close_previous_window()<CR>
 
 
-"[ use `d` and `u` to move and `q` to exit ] [ for man, help and terminal ]
-autocmd FileType man,help :nnoremap <nowait><buffer>d 
-autocmd FileType man,help :nnoremap <buffer>u 
-autocmd FileType man,help :nnoremap <buffer>q ZQ
+"[ use `d` and `u` to move and `q` to exit ] [ for man, help, qf and terminal ]
+autocmd FileType man,help,qf nnoremap <nowait><buffer>d 
+autocmd FileType man,help,qf nnoremap <buffer>u 
+autocmd FileType man,help,qf nnoremap <buffer>q ZQ
 if has('nvim')
-	autocmd TermOpen * :nnoremap <nowait><buffer>d 
-	autocmd TermOpen * :nnoremap <buffer>u 
-	autocmd TermOpen * :nnoremap <buffer>q ZQ
+	autocmd TermOpen * nnoremap <nowait><buffer>d 
+	autocmd TermOpen * nnoremap <buffer>u 
+	autocmd TermOpen * nnoremap <buffer>q ZQ
 endif
-"autocmd FileType man :nnoremap <buffer>- /^\s\+\zs-
-"autocmd FileType man :nnoremap <buffer>- /\v^\s+(--?[a-zA-Z-]+,\s*)*\zs-
-"autocmd FileType man :nnoremap <buffer>- /\v^\s+
+"autocmd FileType man nnoremap <buffer>- /^\s\+\zs-
+"autocmd FileType man nnoremap <buffer>- /\v^\s+(--?[a-zA-Z-]+,\s*)*\zs-
+"autocmd FileType man nnoremap <buffer>- /\v^\s+
 "			\%(
 "				\--?[a-zA-Z-]+
 "				\[ =]?[=<>()<bar>[\]a-zA-Z-]*
 "				\,\s*
 "			\)*\zs-
-autocmd FileType man :nnoremap <buffer>- /\v^\s+
+autocmd FileType man nnoremap <buffer>- /\v^\s+
 			\%(
 				\[+-][^,]+,\s*
 			\)*\zs-
@@ -423,7 +423,7 @@ autocmd FileType man match manOptionDesc /\v
 "	-S<string>
 "	-1 --base, -2 --ours, -3 --theirs
 "git-push(1) and git-log(1) is a good man page to test highlight
-autocmd FileType man :nnoremap <buffer><Space> /^\s\+\zs
+autocmd FileType man nnoremap <buffer><Space> /^\s\+\zs
 
 
 "[ User command ]
@@ -465,9 +465,9 @@ command! -nargs=0 RemoveAllTrailingSpaces %s/\s\+$/
 
 
 "[ Python ]
-"autocmd FileType python :setlocal foldmethod=indent
-autocmd FileType python :nnoremap <buffer><F5>		<Cmd>update<bar>Te python3 %<CR>
-"autocmd FileType python :nmap <buffer><leader>R	HVG<S-F5>
+"autocmd FileType python setlocal foldmethod=indent
+autocmd FileType python nnoremap <buffer><F5>		<Cmd>update<bar>Te python3 %<CR>
+"autocmd FileType python nmap <buffer><leader>R	HVG<S-F5>
 set foldlevel=99
 nnoremap <Space> za
 
@@ -522,9 +522,9 @@ autocmd BufNewFile *.c 0r ~/.vim/skeleton.c | norm! Gdd5gg
 autocmd Filetype html,javascript setl tabstop=8 softtabstop=0 expandtab shiftwidth=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 
 if has('mac')
-	autocmd FileType xhtml,html :nnoremap <buffer><F5>	<Cmd>update<bar>call jobstart(['open','-a','/Applications/Firefox.app',@%])<CR>
+	autocmd FileType xhtml,html nnoremap <buffer><F5>	<Cmd>update<bar>call jobstart(['open','-a','/Applications/Firefox.app',@%])<CR>
 else
-	autocmd FileType xhtml,html :nnoremap <buffer><F5>	<Cmd>update<bar>call jobstart(['firefox',@%])<CR>
+	autocmd FileType xhtml,html nnoremap <buffer><F5>	<Cmd>update<bar>call jobstart(['firefox',@%])<CR>
 endif
 
 autocmd Filetype javascript nnoremap <F5> <Cmd>update %<bar>Te node %<CR>
