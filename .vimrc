@@ -473,6 +473,27 @@ nnoremap <Space> za
 
 autocmd BufWritePre  *.py call CocAction('format')
 
+autocmd FileType python vnoremap <buffer><CR> <Cmd>call <SID>run_in_ipython()<CR>
+autocmd FileType python nnoremap <buffer><CR> <Cmd>call <SID>run_in_ipython()<CR>
+autocmd FileType python nnoremap <S-F5> <Cmd>Te ipython3 -i %<CR>
+function s:run_in_ipython()
+	silent norm! "+Y
+	let @* = "%paste\<CR>"
+	for buf in getbufinfo()
+		if buf.name =~ 'term://.//\d\+:ipython\(3\|2\)\?'
+			" found
+			let winnr = bufwinnr(buf.bufnr)
+			exe winnr . "wincmd w"
+			norm! "*pG
+			return
+		endif
+	endfor
+	" not found
+	Ipy
+	norm "*p
+	stopinsert
+endfunction
+
 ":echo searchpair('{', '', '}', 'bW')
 
 "	This works when the cursor is at or before the "}" for which a
