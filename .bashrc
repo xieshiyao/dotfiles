@@ -33,6 +33,7 @@ alias cd-='cd -'
 alias py2='python2'
 alias py3='python3'
 alias py='python3'
+alias pip='pip3'
 alias xargs='xargs '
 alias mysudo='sudo -E env "PATH=$PATH"'
 alias tree='tree -C'
@@ -57,10 +58,12 @@ function addpath()
 }
 addpath /usr/local/python3/bin 
 addpath /usr/local/go/bin 
-addpath /home/sudongpo/bin
+# addpath /usr/local/cuda/bin
 
 addpath "$HOME/.local/bin"
 addpath "$HOME/bin"
+
+# export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 
 eatwhat(){
 	echo "Tacos,Burgers,Pizza,Sushi,Salad,Pasta" | tr ',' '\n' |sort -R |head -1
@@ -162,3 +165,16 @@ if ! $MACOS; then
 	alias firefox='open -a /Applications/Firefox.app'
 	export LC_ALL=en_US.UTF-8
 fi
+
+# for tensorflow
+
+# fix error messages: Failed to get convolution algorithm. This is probably because cuDNN failed to initialize, so try looking to see if a warning log message was printed above.
+export TF_FORCE_GPU_ALLOW_GROWTH=true
+
+# 0 = all messages are logged (default behavior)
+# 1 = INFO messages are not printed
+# 2 = INFO and WARNING messages are not printed
+# 3 = INFO, WARNING, and ERROR messages are not printed
+export TF_CPP_MIN_LOG_LEVEL=2
+
+export DOTNET_CLI_TELEMETRY_OPTOUT=true # opt out .NET from collecting usage data
