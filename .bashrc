@@ -178,3 +178,15 @@ export TF_FORCE_GPU_ALLOW_GROWTH=true
 export TF_CPP_MIN_LOG_LEVEL=2
 
 export DOTNET_CLI_TELEMETRY_OPTOUT=true # opt out .NET from collecting usage data
+
+
+export FZF_DEFAULT_OPTS="--height 60% --reverse --multi --inline-info \
+	--preview='[[ \$(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat {} --color=always -pp) | head -300' \
+	--preview-window=''right:hidden:wrap \
+	--bind='f2:toggle-preview,\
+ctrl-d:half-page-down,\
+ctrl-y:execute(echo {+} | xsel --clipboard)'"
+complete -o bashdefault -o default -F _fzf_path_completion nv
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
