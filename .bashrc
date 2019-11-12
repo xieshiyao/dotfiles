@@ -51,9 +51,12 @@ alias nv='~/Downloads/nvim.appimage'
 
 function addpath()
 {
-	# if ! grep "$1" >/dev/null <<< $PATH;then
-	if ! [[ "$PATH" =~ "$1" ]];then
-		export PATH="$PATH":"$1"
+	if ! [[ "$PATH" =~ (^|:)"$1"(:|$) ]];then
+		if [[ "$2" == before ]];then
+			export PATH="$1":$PATH
+		else
+			export PATH="$PATH":"$1"
+		fi
 	fi
 }
 addpath /usr/local/python3/bin 
