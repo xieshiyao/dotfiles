@@ -16,6 +16,7 @@ set cindent
 set number
 set ruler
 set hlsearch
+"set termguicolors
 set backspace=indent,eol,start
 "set display+=uhex " Show unprintable characters hexadecimal as <xx> instead of using ^C and ~C
 set mouse=a
@@ -153,9 +154,7 @@ ia makeac #include<stdio.h><CR>int main(void)<CR>{<CR>return 0;<CR>}<Esc>3ggo
 ia makealex %option noyywrap<CR>%%<CR>%%<CR>int main(void)<CR>{<CR>yylex();<CR>return 0;<CR>}<Esc>2ggA
 ia csapph #include"csapp.h"<CR>int main(void)<CR>{<CR>return 0:<CR>}<Esc>3ggo
 
-cabbrev to to vert sp
-cabbrev bo bo vert sp
-autocmd FileType make ia gcc gcc -std=c99
+"autocmd FileType make ia gcc gcc -std=c99
 
 "[ make comment ]
 noremap   <C-V>^o^I# <Esc>	|	"default
@@ -259,11 +258,11 @@ call plug#begin('~/.vim/plugged')
 		nmap <F8> <Plug>(coc-rename)
 
 		nnoremap <leader>f <Cmd>call CocAction('format')<CR>
+		autocmd BufWrite * call CocAction('format')
 
 		set updatetime=300
 		autocmd CursorHold * silent call CocActionAsync('highlight')
 		nnoremap <LeftMouse> <LeftMouse><Cmd>call CocActionAsync('highlight')<CR>
-		"set termguicolors
 
 		let g:coc_global_extensions=['coc-json','coc-tsserver','coc-css',
 					\'coc-vimlsp','coc-python','coc-omnisharp','coc-go','coc-java',
@@ -310,9 +309,13 @@ call plug#begin('~/.vim/plugged')
 		Plug 'honza/vim-snippets'
 		"let g:UltiSnipsJumpForwardTrigger = '<C-j>'
 		"let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
+	Plug 'liuchengxu/vista.vim'
+		let g:vista_default_executive = 'coc'
+		nnoremap <Leader>v <Cmd>Vista!!<CR>
 
 	Plug 'lervag/vimtex'
 		let g:tex_flavor='latex'
+		let g:vimtex_compiler_progname='nvr'
 	Plug 'wellle/targets.vim'
 	Plug 'sheerun/vim-polyglot'
 	"Plug 'ryanoasis/vim-devicons' "Adds file type icons to Vim plugins
@@ -456,6 +459,10 @@ autocmd FileType man nnoremap <buffer>- /\v^\s+
 			\%(
 				\[+-][^,]+,\s*
 			\)*\zs-
+autocmd FileType man nnoremap <buffer>+ /\v^\s+
+			\%(
+				\[+-][^,]+,\s*
+			\)*\zs\+
 "syntax match manOptionDesc display /\v(^\s+
 autocmd FileType man match manOptionDesc /\v
 			\(^\s+
@@ -470,7 +477,7 @@ autocmd FileType man match manOptionDesc /\v
 "	-U<n>, --unified=<n>
 "	-S<string>
 "	-1 --base, -2 --ours, -3 --theirs
-"git-push(1) and git-log(1) is a good man page to test highlight
+"git-push(1) and git-log(1) are good man pages to test highlight
 autocmd FileType man nnoremap <buffer><Space> /^\s\+\zs
 
 
@@ -498,6 +505,8 @@ command! -nargs=0 X silent !chmod u+x %
 "rename file
 command! -nargs=1 Re let temp=expand('%:t') | saveas <args> | call delete(expand(temp))
 
+command! -nargs=0 Open silent !gnome-open %
+
 command! -nargs=0 RemoveAllTrailingSpaces %s/\s\+$/
 
 
@@ -521,11 +530,9 @@ autocmd FileType python nnoremap <buffer><F5>		<Cmd>update<bar>Te python3 %<CR>
 set foldlevel=99
 nnoremap <Space> za
 
-autocmd BufWritePre  *.py call CocAction('format')
-
 autocmd FileType python vnoremap <buffer><CR> <Cmd>call <SID>run_in_ipython()<CR>
 autocmd FileType python nnoremap <buffer><CR> <Cmd>call <SID>run_in_ipython()<CR>
-autocmd FileType python nnoremap <S-F5> <Cmd>Te ipython3 -i %<CR>
+autocmd FileType python nnoremap <buffer><S-F5> <Cmd>Te ipython3 -i %<CR>
 function s:run_in_ipython()
 	silent norm! "+Y
 	let @* = "%paste\<CR>"
@@ -543,6 +550,8 @@ function s:run_in_ipython()
 	norm "*p
 	stopinsert
 endfunction
+" id=win_getid() "get id of current window"
+" win_gotoid(id) "go back"
 
 ":echo searchpair('{', '', '}', 'bW')
 

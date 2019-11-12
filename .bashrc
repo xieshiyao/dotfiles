@@ -65,11 +65,14 @@ addpath /usr/local/go/bin
 
 addpath "$HOME/.local/bin"
 addpath "$HOME/bin"
+# addpath "$HOME/gooo/bin"
+
+[ -f $HOME/mylocal.bashrc ] && . $HOME/mylocal.bashrc
 
 # export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 
 eatwhat(){
-	echo "Tacos,Burgers,Pizza,Sushi,Salad,Pasta" | tr ',' '\n' |sort -R |head -1
+	echo "Tacos,Burgers,Pizza,Sushi,Salad,Pasta" | tr ',' '\n' | sort -R | head -1
 } 
 
 export winhost=125.216.244.141
@@ -137,7 +140,7 @@ function showpath()
 
 export -f showpath
 #md=/home/sudongpo/.vim/bundle/vim-instant-markdown/after/ftplugin/markdown
-export plugin=/home/sudongpo/.vim/plugged
+export plugin=$HOME/.vim/plugged
 export swp=~/.local/share/nvim/swap
 
 cd..()
@@ -193,3 +196,9 @@ complete -o bashdefault -o default -F _fzf_path_completion nv
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
+stty -ixon # disable ^S which freeze my terminal
+
+# export http_proxy=127.0.0.1:12333
+# export https_proxy=127.0.0.1:12333
+
+export GOPATH=$HOME/gooo
