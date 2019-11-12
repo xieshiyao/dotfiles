@@ -294,7 +294,11 @@ call plug#begin('~/.vim/plugged')
 		autocmd FileType nerdtree nnoremap  <buffer>/  /\c
 	Plug 'tpope/vim-fugitive' "Git wrapper
 	Plug 'vim-airline/vim-airline'
+		let g:airline_powerline_fonts = 1
+		"let g:airline_left_sep =  "\uE0C0"
+		"let g:airline_right_sep = "\uE0C2"
 		"let g:airline_focuslost_inactive = 1
+		"Plug 'vim-airline/vim-airline-themes'
 	Plug 'vim-scripts/matchit.zip'
 	Plug 'vim-scripts/python_match.vim'
 	Plug 'SirVer/ultisnips'
@@ -311,6 +315,47 @@ call plug#begin('~/.vim/plugged')
 		let g:tex_flavor='latex'
 	Plug 'wellle/targets.vim'
 	Plug 'sheerun/vim-polyglot'
+	"Plug 'ryanoasis/vim-devicons' "Adds file type icons to Vim plugins
+		"let g:webdevicons_enable_airline_statusline=0
+" NERDTrees File highlighting
+"function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+" exec 'autocmd FileType nerdtree highlight lalala' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+" exec 'autocmd FileType nerdtree syn match lalala' . a:extension .' #^\s\+.*'. a:extension .'$#'
+"endfunction
+"
+"call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
+"call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
+"call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
+"call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#151515')
+"call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#151515')
+"call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#151515')
+"call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
+"call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
+"call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#151515')
+"call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
+"call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
+"call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
+"call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
+"call NERDTreeHighlightFile('ds_store', 'Gray', 'none', '#686868', '#151515')
+"call NERDTreeHighlightFile('gitconfig', 'Gray', 'none', '#686868', '#151515')
+"call NERDTreeHighlightFile('gitignore', 'Gray', 'none', '#686868', '#151515')
+"call NERDTreeHighlightFile('bashrc', 'Gray', 'none', '#686868', '#151515')
+"call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#151515')
+"
+"call NERDTreeHighlightFile('cpp', 'blue', 'none', 'blue', '#151515')
+"call NERDTreeHighlightFile('py', 'lightblue', 'none', 'lightblue', '#151515')
+"call NERDTreeHighlightFile('c', 'lightgreen', 'none', 'lightgreen', '#151515')
+"call NERDTreeHighlightFile('tex', 'brown', 'none', 'brown', '#151515')
+"call NERDTreeHighlightFile('rpm', 'red', 'none', 'darkred', '#151515')
+"call NERDTreeHighlightFile('zip', 'red', 'none', 'darkred', '#151515')
+"call NERDTreeHighlightFile('go', 'lightblue', 'none', 'lightblue', '#151515')
+"call NERDTreeHighlightFile('exe', 'grey', 'none', 'grey', '#151515')
+"call NERDTreeHighlightFile('jpeg', 'magenta', 'none', 'magenta', '#151515')
+"call NERDTreeHighlightFile('jpg', 'magenta', 'none', 'magenta', '#151515')
+"call NERDTreeHighlightFile('png', 'magenta', 'none', 'magenta', '#151515')
+"call NERDTreeHighlightFile('gif', 'magenta', 'none', 'magenta', '#151515')
+"call NERDTreeHighlightFile('mp4', 'magenta', 'none', 'magenta', '#151515')
+	"runtime syntax/colortest.vim
 
 	"for web development
 	Plug 'tpope/vim-surround'
