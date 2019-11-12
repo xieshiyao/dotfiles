@@ -273,7 +273,13 @@ call plug#begin('~/.vim/plugged')
 
 		"inoremap <expr><cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
-	Plug 'fatih/vim-go'
+	"Plug 'fatih/vim-go'
+		"let g:go_fmt_command = "goimports"
+		"autocmd FileType go nnoremap <buffer><leader>r <Cmd>GoRun %<CR>
+		"autocmd FileType go nnoremap <buffer><leader>b <Cmd>GoBuild<CR>
+		"autocmd FileType go nnoremap <buffer><leader>i <Cmd>GoImport 
+		"autocmd FileType go nnoremap <buffer><leader>I <Cmd>GoImports<CR>
+		"autocmd FileType go nnoremap <buffer><leader>f <Cmd>GoFmt<CR>
 	"Plug 'chrisbra/changesPlugin'
 	"Plug 'johngrib/vim-game-code-break'
 	"Plug 'johngrib/vim-game-snake'
@@ -324,14 +330,6 @@ nnoremap gh <Cmd>call SaveMarks('<>')<CR>
 			\<Cmd>call RestoreMarks()<CR>
 
 
-"[ golang ]
-"let g:go_fmt_command = "goimports"
-autocmd FileType go nnoremap <buffer><leader>r <Cmd>GoRun %<CR>
-autocmd FileType go nnoremap <buffer><leader>b <Cmd>GoBuild<CR>
-autocmd FileType go nnoremap <buffer><leader>i <Cmd>GoImport 
-autocmd FileType go nnoremap <buffer><leader>I <Cmd>GoImports<CR>
-"autocmd FileType go nnoremap <buffer><leader>f <Cmd>GoFmt<CR>
-"autocmd BufWritePost *.go !gofmt -w %
 
 "[ Alt key ]
 function! s:setAlt(key,...)
