@@ -45,7 +45,7 @@ alias view='nvim -R'
 alias gs='git status'
 alias open='gnome-open'
 
-alias nv='~/Downloads/nvim.appimage'
+# alias nv='~/Downloads/nvim.appimage'
 
 #set -o vi # hang onto your hat
 

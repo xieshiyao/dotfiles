@@ -41,5 +41,5 @@
 		"vim-plug"
 	],
 	"coc.preferences.formatOnType": true,
-	"xml.java.home": "/usr/lib/jvm/java-13-openjdk-13.0.0.33-1.rolling.fc30.x86_64"
+	"xml.java.home": "/usr/lib/jvm/java-openjdk"
 }

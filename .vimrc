@@ -282,6 +282,7 @@ call plug#begin('~/.vim/plugged')
 	"Plug 'chrisbra/changesPlugin'
 	"Plug 'johngrib/vim-game-code-break'
 	"Plug 'johngrib/vim-game-snake'
+	Plug 'vim/killersheep'
 	"Plug 'suan/vim-instant-markdown'
 	"Plug 'shime/vim-livedown'
 	Plug 'tmhedberg/SimpylFold' "for python
@@ -292,6 +293,7 @@ call plug#begin('~/.vim/plugged')
 		map <C-n> <Cmd>NERDTreeToggle<CR>
 		autocmd FileType nerdtree nnoremap  <buffer>/  /\c
 	Plug 'tpope/vim-fugitive' "Git wrapper
+		Plug 'tpope/vim-rhubarb' "GitHub extension for fugitive.vim
 	Plug 'vim-airline/vim-airline'
 		let g:airline_powerline_fonts = 1
 		"let g:airline_left_sep =  "\uE0C0"
@@ -315,9 +317,10 @@ call plug#begin('~/.vim/plugged')
 
 	Plug 'lervag/vimtex'
 		let g:tex_flavor='latex'
-		let g:vimtex_compiler_progname='nvr'
+		"let g:vimtex_compiler_progname='nvr'
 	Plug 'wellle/targets.vim'
 	Plug 'sheerun/vim-polyglot'
+		let g:polyglot_disabled = ['latex']
 	"Plug 'ryanoasis/vim-devicons' "Adds file type icons to Vim plugins
 		"let g:webdevicons_enable_airline_statusline=0
 " NERDTrees File highlighting
@@ -552,6 +555,9 @@ function s:run_in_ipython()
 endfunction
 " id=win_getid() "get id of current window"
 " win_gotoid(id) "go back"
+"
+" id=termopen('bash')
+" chansend(id,"echo hello\n")
 
 ":echo searchpair('{', '', '}', 'bW')
 
