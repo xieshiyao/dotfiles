@@ -198,7 +198,15 @@ complete -o bashdefault -o default -F _fzf_path_completion nv
 
 stty -ixon # disable ^S which freeze my terminal
 
-# export http_proxy=127.0.0.1:12333
-# export https_proxy=127.0.0.1:12333
+function fq()
+{
+	if [[ $# == 0 ]]; then
+		echo fqing...
+		export http{,s}_proxy=127.0.0.1:12333
+	else
+		echo 做回合法公民
+		export http{,s}_proxy=
+	fi
+}
 
 export GOPATH=$HOME/gooo
