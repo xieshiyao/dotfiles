@@ -22,6 +22,7 @@ set backspace=indent,eol,start
 set mouse=a
 set confirm
 set clipboard+=unnamedplus
+let &spellfile=$HOME.'/.vim/spell/en.utf-8.add'
 
 set wildmenu
 set foldmethod=syntax

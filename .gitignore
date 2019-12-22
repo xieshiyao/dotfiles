@@ -24,3 +24,5 @@
 !.vim/skeleton.c
 !.vim/autoload/
 !.vim/autoload/plug.vim
+!.vim/spell/
+!.vim/spell/*
