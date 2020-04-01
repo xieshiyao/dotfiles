@@ -22,7 +22,7 @@ set backspace=indent,eol,start
 set mouse=a
 set confirm
 set clipboard+=unnamedplus
-let &spellfile=$HOME.'/.vim/spell/en.utf-8.add'
+set spellfile=$HOME/.vim/spell/en.utf-8.add
 
 set wildmenu
 set foldmethod=syntax
@@ -39,6 +39,8 @@ nnoremap J	J<Cmd>exe CurrentChar()==' '?'norm! x':''<CR>
 "nnoremap <leader>f gg=G
 nnoremap <F12> @a
 nnoremap <expr>z= "\<Cmd> setl " . (CurrentChar() =~ '\w' ? "spell\<CR>z=" : "nospell\<CR>")
+nnoremap <Space>* <Cmd>let @/='\<'.expand('<cword>').'\>'<bar>set hlsearch<CR>
+nnoremap <Space>g* <Cmd>let @/=expand('<cword>')<bar>set hlsearch<CR>
 nnoremap <C-S> <Cmd>update<CR>
 nnoremap <C-W>K <C-W>sK
 
@@ -218,6 +220,9 @@ autocmd FileType vim,help,python :nnoremap <buffer><leader>R	<Cmd>let b:winview=
 call plug#begin('~/.vim/plugged')
 
 	Plug 'neoclide/coc.nvim',{'branch': 'release'}
+		Plug 'liuchengxu/vista.vim'
+			let g:vista_default_executive = 'coc'
+			nnoremap <Leader>v <Cmd>Vista!!<CR>
 		inoremap <silent><expr> <TAB>
 		  \ pumvisible() ? "\<C-n>" :
 		  \ <SID>check_back_no_identifier() ? "\<TAB>" :
@@ -293,6 +298,7 @@ call plug#begin('~/.vim/plugged')
 	Plug 'scrooloose/nerdtree'
 		map <C-n> <Cmd>NERDTreeToggle<CR>
 		autocmd FileType nerdtree nnoremap  <buffer>/  /\c
+	Plug 'preservim/nerdcommenter'
 	Plug 'tpope/vim-fugitive' "Git wrapper
 		Plug 'tpope/vim-rhubarb' "GitHub extension for fugitive.vim
 	Plug 'vim-airline/vim-airline'
@@ -312,16 +318,17 @@ call plug#begin('~/.vim/plugged')
 		Plug 'honza/vim-snippets'
 		"let g:UltiSnipsJumpForwardTrigger = '<C-j>'
 		"let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
-	Plug 'liuchengxu/vista.vim'
-		let g:vista_default_executive = 'coc'
-		nnoremap <Leader>v <Cmd>Vista!!<CR>
 
 	Plug 'lervag/vimtex'
 		let g:tex_flavor='latex'
 		"let g:vimtex_compiler_progname='nvr'
 	Plug 'wellle/targets.vim'
 	Plug 'sheerun/vim-polyglot'
-		let g:polyglot_disabled = ['latex']
+		let g:polyglot_disabled = ['latex'] " conflict with vimtex
+		let g:python_highlight_space_errors=0
+	Plug 'airblade/vim-gitgutter'
+	"Plug 'mhinz/vim-signify'
+
 	"Plug 'ryanoasis/vim-devicons' "Adds file type icons to Vim plugins
 		"let g:webdevicons_enable_airline_statusline=0
 " NERDTrees File highlighting
@@ -490,6 +497,7 @@ autocmd FileType man nnoremap <buffer><Space> /^\s\+\zs
 "function or scripts, the insertion only starts after the function or script
 "is finished
 command! -nargs=? Te sp | startinsert! | te <args>
+" TODO support auto completion
 command! -nargs=0 Ipy Te ipython3
 command! -nargs=0 Py Te python3
 command! -nargs=0 Isym Te isympy
@@ -500,11 +508,14 @@ command! -nargs=0 Sos so ./Session.vim
 command! -nargs=0 V exe len(@%) ? "sp" : "e" "~/.vimrc"
 command! -nargs=0 B exe len(@%) ? "sp" : "e" "~/.bashrc"
 command! -nargs=0 T exe len(@%) ? "sp" : "e" "~/.tmux.conf"
+" TODO GNUmakefile makefile Makefile
 command! -nargs=0 M exe len(@%) ? "sp" : "e" "makefile"
 
 command! -nargs=0 P to vert sp ~/.vim/plugged/
 
-command! -nargs=0 X silent !chmod u+x %
+if has('nvim')
+	command! -nargs=0 X silent !chmod u+x %
+endif
 
 "rename file
 command! -nargs=1 Re let temp=expand('%:t') | saveas <args> | call delete(expand(temp))
@@ -532,7 +543,7 @@ command! -nargs=0 RemoveAllTrailingSpaces %s/\s\+$/
 autocmd FileType python nnoremap <buffer><F5>		<Cmd>update<bar>Te python3 %<CR>
 "autocmd FileType python nmap <buffer><leader>R	HVG<S-F5>
 set foldlevel=99
-nnoremap <Space> za
+"nnoremap <Space> za
 
 autocmd FileType python vnoremap <buffer><CR> <Cmd>call <SID>run_in_ipython()<CR>
 autocmd FileType python nnoremap <buffer><CR> <Cmd>call <SID>run_in_ipython()<CR>
@@ -581,9 +592,6 @@ endfunction
 autocmd BufNewFile *.c 0r ~/.vim/skeleton.c | norm! Gdd5gg
 
 
-"[ test zone ]
-
-
 "[ web development ] [ html javascript xhtml ]
 autocmd Filetype html,javascript setl tabstop=8 softtabstop=0 expandtab shiftwidth=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 
@@ -613,3 +621,37 @@ let g:tex_fold_enabled=1
 
 " [ bash, shell ]
 autocmd FileType sh nnoremap <buffer><F5>	<Cmd>update<bar>Te bash %<CR>
+
+
+"[ test zone ]
+
+" show the syntax name under the cursor
+" echo synIDattr(synID(line("."),col("."),1),"name")
+
+"if  0 && executable('speak-ng')
+"	autocmd InsertCharPre * 
+"				\if v:char =~ '\w' |
+"					\if 0 | call jobstart(['speak-ng',v:char]) | endif |
+"				\else |
+"					\call jobstart(['speak-ng'
+"					\,match(strpart(getline('.'),0,col('.')),'\w\+\s*$')!=-1 
+"						\?substitute(strpart(getline('.'),0,col('.'))
+"							\,'.\{-}\(\w\+\)\s*$','\1','')
+"						\:''
+"					\]) |
+"				\endif
+"endif
+
+"autocmd  InsertEnter * call jobstart(['speak-ng',mode(1)])
+
+"nnoremap \/ <Cmd>call feedkeys('/apple','t')<CR>
+
+"function MySearch(pattern)
+"	let @/=a:pattern
+"	set hlsearch
+"endfunction
+"cnoremap <C-S> <C-\>e 'MySearch("'.escape(getcmdline(),'\"').'")'<CR>
+"cnoremap <C-S> <Cmd>let @/=getcmdline()<bar>set hlsearch<bar><CR><Esc>
+"cnoremap <C-S> <Esc>
+"
+" TODO autocmd FileType man vnnoremap gO ???

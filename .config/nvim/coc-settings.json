@@ -23,7 +23,7 @@
 			}
 		}
 	},
-	"python.jediEnabled": true,
+	"python.jediEnabled": false,
 	"codeLens.enable": true,
 	"highlight.disableLanguages": [
 		"text",

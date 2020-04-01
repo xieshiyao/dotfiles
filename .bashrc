@@ -75,6 +75,20 @@ eatwhat(){
 	echo "Tacos,Burgers,Pizza,Sushi,Salad,Pasta" | tr ',' '\n' | sort -R | head -1
 } 
 
+mping ()
+{ 
+	ping $1 \
+	| awk -F[=\ ] '/time=/
+						{
+							t=$(NF-1);
+							f=3000-14*log(t^20);
+							c="play -q -n synth 1 pl " f;
+							print $0;
+							system(c)
+						}
+					!/time=/'
+}
+
 export winhost=125.216.244.141
 
 function _gotoProgramFileDir()
@@ -141,6 +155,7 @@ function showpath()
 export -f showpath
 #md=/home/sudongpo/.vim/bundle/vim-instant-markdown/after/ftplugin/markdown
 export plugin=$HOME/.vim/plugged
+export xunlei=$HOME/.deepinwine/Deepin-ThunderSpeed/drive_c/迅雷下载/
 export swp=~/.local/share/nvim/swap
 
 cd..()
@@ -210,3 +225,14 @@ function fq()
 }
 
 export GOPATH=$HOME/gooo
+
+
+# TODO write a program to unpack a directory
+# eg:	$ ls
+#		redundant/ something else
+#		$ ls redundant/
+#		dir1/ dir2/ file1
+#		$ undir redundant/
+#		$ ls
+#		dir1/ dir2/ file1 something else
+
