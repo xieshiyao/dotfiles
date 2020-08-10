@@ -45,6 +45,10 @@ alias view='nvim -R'
 alias gs='git status'
 alias open='gnome-open'
 
+alias lst='ls --color=auto -t'
+alias llt='ls --color=auto -lt'
+alias llh='ls --color=auto -lh'
+alias llth='ls --color=auto -lth'
 # alias nv='~/Downloads/nvim.appimage'
 
 #set -o vi # hang onto your hat
@@ -84,9 +88,50 @@ mping ()
 							f=3000-14*log(t^20);
 							c="play -q -n synth 1 pl " f;
 							print $0;
-							system(c)
+							system(c);
+							print "hello"
 						}
-					!/time=/'
+					! /time=/ { print "no" }'
+}
+
+mping2 ()
+{ 
+	ping $1 \
+	| awk -F[=\ ] '/time=/
+						{
+							t=$(NF-1);
+							f=3000-14*log(t^20);
+							c="play -q -n synth 1 pl " f;
+							system(c);
+							print "hello"
+						}
+					! /time=/ { print "no" }'
+}
+
+mping3 ()
+{ 
+	ping $1 \
+	| awk -F[=\ ] '/time=/
+						{
+							t=$(NF-1);
+							f=3000-14*log(t^20);
+							c="play -q -n synth 1 pl " f;
+							system(c);
+							print "hello"
+						}'
+}
+
+mping4 ()
+{ 
+	ping $1 \
+	| awk -F[=\ ] '/time=/
+						{
+							t=$(NF-1);
+							f=3000-14*log(t^20);
+							c="play -q -n synth 1 pl " f;
+							system(c);
+							print "hello"
+						}'
 }
 
 export winhost=125.216.244.141
@@ -225,6 +270,14 @@ function fq()
 }
 
 export GOPATH=$HOME/gooo
+
+function mkcd() {
+	mkdir "$@"
+	while [[ $# > 1 ]]; do
+		shift
+	done
+	cd $1
+}
 
 
 # TODO write a program to unpack a directory

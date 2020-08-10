@@ -37,7 +37,7 @@ syntax on
 nnoremap <Esc> <Cmd>nohlsearch<bar>echo ''<bar>call coc#util#float_hide()<CR>
 nnoremap J	J<Cmd>exe CurrentChar()==' '?'norm! x':''<CR>
 "nnoremap <leader>f gg=G
-nnoremap <F12> @a
+noremap <F12> @a
 nnoremap <expr>z= "\<Cmd> setl " . (CurrentChar() =~ '\w' ? "spell\<CR>z=" : "nospell\<CR>")
 nnoremap <Space>* <Cmd>let @/='\<'.expand('<cword>').'\>'<bar>set hlsearch<CR>
 nnoremap <Space>g* <Cmd>let @/=expand('<cword>')<bar>set hlsearch<CR>
@@ -46,8 +46,11 @@ nnoremap <C-W>K <C-W>sK
 
 "write the file in insert mode
 inoremap <C-S> <Esc><Cmd>update<CR>
+snoremap <C-S> <Esc><Cmd>update<CR>
+
 inoremap <C-A> <C-O>^
 inoremap <C-E> <C-O>$
+inoremap <C-O> <C-\><C-O>
 
 set autoread "When a file has been detected to have been changed outside of Vim and
              "it has not been change inside of Vim, automatically read it again
@@ -220,9 +223,9 @@ autocmd FileType vim,help,python :nnoremap <buffer><leader>R	<Cmd>let b:winview=
 call plug#begin('~/.vim/plugged')
 
 	Plug 'neoclide/coc.nvim',{'branch': 'release'}
-		Plug 'liuchengxu/vista.vim'
-			let g:vista_default_executive = 'coc'
-			nnoremap <Leader>v <Cmd>Vista!!<CR>
+		"Plug 'liuchengxu/vista.vim'
+		"	let g:vista_default_executive = 'coc'
+		"	nnoremap <Leader>v <Cmd>Vista!!<CR>
 		inoremap <silent><expr> <TAB>
 		  \ pumvisible() ? "\<C-n>" :
 		  \ <SID>check_back_no_identifier() ? "\<TAB>" :
@@ -243,6 +246,7 @@ call plug#begin('~/.vim/plugged')
 					\? "coc#util#float_hide()"
 					\: "CocAction('doHover')" 
 					\) . "<CR>"
+		nnoremap <C-P> <C-I>
 
 		nmap <silent>[e <Plug>(coc-diagnostic-prev)
 		nmap <silent>]e <Plug>(coc-diagnostic-next)
@@ -274,7 +278,8 @@ call plug#begin('~/.vim/plugged')
 					\'coc-vimlsp','coc-python','coc-omnisharp','coc-go','coc-java',
 					\'coc-snippets','coc-html','coc-xml','coc-ultisnips',
 					\'coc-marketplace','coc-highlight',
-					\'coc-vimtex','coc-docker']
+					\'coc-vimtex','coc-docker',
+					\'coc-rainbow-fart']
 
 		"inoremap <expr><cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
@@ -313,20 +318,63 @@ call plug#begin('~/.vim/plugged')
 		let g:UltiSnipsEditSplit='horizontal'
 		let g:UltiSnipsExpandTrigger='<C-j>'
 		" TODO use different Trigger for Expansion and JumpForward
-		let g:UltiSnipsSnippetsDir='~/myUltiSnips/'
-		let g:UltiSnipsSnippetDirectories=["/home/sudongpo/myUltiSnips", "UltiSnips"]
+		let g:UltiSnipsSnippetsDir=$HOME.'/myUltiSnips/'
+		let g:UltiSnipsSnippetDirectories=[$HOME."/myUltiSnips", "UltiSnips"]
 		Plug 'honza/vim-snippets'
 		"let g:UltiSnipsJumpForwardTrigger = '<C-j>'
 		"let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
+	Plug 'morhetz/gruvbox'
+		let g:gruvbox_contrast_dark='hard'
+		command! -nargs=? -complete=custom,s:SoftMediumHard Theme 
+					\if len(<q-args>)>0
+						\|exe 'let g:gruvbox_contrast_'.&bg.'=<q-args>' 
+						\|colorscheme gruvbox
+					\|else
+						\|echohl Title
+						\|echo "g:gruvbox_contrast_light=".g:gruvbox_contrast_light 
+						\"g:gruvbox_contrast_dark=".g:gruvbox_contrast_dark
+						\|echohl None
+					\|endif
+		function! s:SoftMediumHard(_,__,___)
+			return join(['soft','medium','hard'],"\n")
+		endfunction
+	Plug 'nixon/vim-vmath'
+		vmap <expr>  ++  VMATH_YankAndAnalyse()
+		nmap         ++  vip++
+	Plug 'atweiden/vim-dragvisuals'
+		vmap <expr> <left> DVB_Drag('left')
+		vmap <expr> <right> DVB_Drag('right')
+		vmap <expr> <down> DVB_Drag('down')
+		vmap <expr> <up> DVB_Drag('up')
+		vmap <expr> D DVB_Duplicate()
 
 	Plug 'lervag/vimtex'
 		let g:tex_flavor='latex'
 		"let g:vimtex_compiler_progname='nvr'
 	Plug 'wellle/targets.vim'
-	Plug 'sheerun/vim-polyglot'
-		let g:polyglot_disabled = ['latex'] " conflict with vimtex
-		let g:python_highlight_space_errors=0
+	"Plug 'sheerun/vim-polyglot'
+	"	let g:polyglot_disabled = ['latex'] " conflict with vimtex
+	"	let g:python_highlight_space_errors=0
 	Plug 'airblade/vim-gitgutter'
+	Plug 'vimwiki/vimwiki'
+	  let g:vimwiki_key_mappings =
+		\ {
+		\   'all_maps': 1,
+		\   'global': 1,
+		\   'headers': 1,
+		\   'text_objs': 1,
+		\   'table_format': 1,
+		\   'table_mappings': 0,
+		\   'lists': 1,
+		\   'links': 1,
+		\   'html': 1,
+		\   'mouse': 0,
+		\ }
+	Plug 'easymotion/vim-easymotion'
+		map <space> <Plug>(easymotion-prefix)
+		let g:EasyMotion_verbose = 0
+		map S <Plug>(easymotion-s)
+	Plug 'dracula/vim', { 'as': 'dracula' }
 	"Plug 'mhinz/vim-signify'
 
 	"Plug 'ryanoasis/vim-devicons' "Adds file type icons to Vim plugins
@@ -373,11 +421,23 @@ call plug#begin('~/.vim/plugged')
 
 	"for web development
 	Plug 'tpope/vim-surround'
+	Plug 'tpope/vim-repeat'
 	"Plug 'mattn/emmet-vim' "for html expansion
 	Plug 'alvan/vim-closetag'
+	Plug 'tweekmonster/django-plus.vim'
+	Plug 'MaxMEllon/vim-jsx-pretty'
 	"Plug 'mhinz/vim-startify'
 
 call plug#end()
+
+"colorscheme	gruvbox
+colorscheme	dracula
+set termguicolors
+" TODO
+" write a command to toggle
+" - backgroud
+" - colorscheme
+" - options for that colorscheme
 
 function! OpenGithub()
 	let repo=getline(line("."))[col("'<")-1:col("'>")-1]
@@ -489,7 +549,7 @@ autocmd FileType man match manOptionDesc /\v
 "	-S<string>
 "	-1 --base, -2 --ours, -3 --theirs
 "git-push(1) and git-log(1) are good man pages to test highlight
-autocmd FileType man nnoremap <buffer><Space> /^\s\+\zs
+autocmd FileType man nnoremap <buffer><Space><Space> /^\s\+\zs
 
 
 "[ User command ]
@@ -498,7 +558,7 @@ autocmd FileType man nnoremap <buffer><Space> /^\s\+\zs
 "is finished
 command! -nargs=? Te sp | startinsert! | te <args>
 " TODO support auto completion
-command! -nargs=0 Ipy Te ipython3
+command! -nargs=* Ipy Te ipython3 <args>
 command! -nargs=0 Py Te python3
 command! -nargs=0 Isym Te isympy
 
@@ -518,7 +578,13 @@ if has('nvim')
 endif
 
 "rename file
-command! -nargs=1 Re let temp=expand('%:t') | saveas <args> | call delete(expand(temp))
+command! -nargs=1 -complete=custom,s:ReComplete Re let temp=expand('%') 
+			\| saveas <args> 
+			\| call setfperm(<q-args>,getfperm(temp))
+			\| call delete(temp)
+function! s:ReComplete(_,__,___)
+	return expand("%")
+endfunction
 
 command! -nargs=0 Open silent !gnome-open %
 
@@ -592,7 +658,7 @@ endfunction
 autocmd BufNewFile *.c 0r ~/.vim/skeleton.c | norm! Gdd5gg
 
 
-"[ web development ] [ html javascript xhtml ]
+"[ web development ] [ html javascript xhtml django ]
 autocmd Filetype html,javascript setl tabstop=8 softtabstop=0 expandtab shiftwidth=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 
 if has('mac')
@@ -602,6 +668,7 @@ else
 endif
 
 autocmd Filetype javascript nnoremap <F5> <Cmd>update %<bar>Te node %<CR>
+autocmd FileType htmldjango let b:AutoPairs=AutoPairsDefine({'{%':'%}','{#':'#}'})
 
 " [ latex ]
 autocmd FileType tex let b:AutoPairs={
@@ -655,3 +722,8 @@ autocmd FileType sh nnoremap <buffer><F5>	<Cmd>update<bar>Te bash %<CR>
 "cnoremap <C-S> <Esc>
 "
 " TODO autocmd FileType man vnnoremap gO ???
+
+"							*hl-Pmenu*
+"Pmenu		Popup menu: normal item.
+
+autocmd BufNewFile /home/sudongpo/update-log/*.txt call append(line('$'),"vim:set nonu:")

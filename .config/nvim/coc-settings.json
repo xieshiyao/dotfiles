@@ -23,7 +23,14 @@
 			}
 		}
 	},
-	"python.jediEnabled": false,
+	"python.jediEnabled": true,
+	"python.linting.pylintArgs": [
+		"--errors-only",
+		"--generated-members=numpy.*,torch.*,cv2.*"
+	],
+	"python.linting.flake8Args": [
+		"--ignore=E501,E226,F841,F405,F403,F401,I100,I201"
+	],
 	"codeLens.enable": true,
 	"highlight.disableLanguages": [
 		"text",
