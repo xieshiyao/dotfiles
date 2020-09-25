@@ -190,7 +190,7 @@ alias rainbowstream='rainbowstream -24'
 # you may need the line below to run rainbowstream
 # export REQUESTS_CA_BUNDLE=/etc/pki/tls/certs/ca-bundle.crt 
 
-export HISTSIZE=10000
+export HISTSIZE=100000
 
 function showpath()
 {

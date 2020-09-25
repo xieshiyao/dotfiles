@@ -4,8 +4,8 @@
   "description": "This file should be putted in ~/package.json",
   "main": "index.js",
   "dependencies": {
-    "msbuild": "^1.1.2",
     "coc-ccls": "^0.0.4",
+    "msbuild": "^1.1.2",
     "typescript": "^3.5.3"
   },
   "devDependencies": {},

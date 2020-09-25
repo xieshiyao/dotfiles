@@ -165,8 +165,8 @@ ia csapph #include"csapp.h"<CR>int main(void)<CR>{<CR>return 0:<CR>}<Esc>3ggo
 "[ make comment ]
 noremap   <C-V>^o^I# <Esc>	|	"default
 noremap <C-?> <C-V>^o^lx		|	"default
-autocmd FileType c,cpp,yacc,go,javascript noremap <buffer>		<C-V>^o^I// <Esc>
-autocmd FileType c,cpp,yacc,go,javascript noremap <buffer><C-?>	<C-V>^o^llx<Esc>
+autocmd FileType c,cpp,yacc,go,javascript,javascriptreact,css noremap <buffer>		<C-V>^o^I// <Esc>
+autocmd FileType c,cpp,yacc,go,javascript,javascriptreact,css noremap <buffer><C-?>	<C-V>^o^llx<Esc>
 autocmd FileType vim noremap <buffer>				<C-V>^o^I"<Esc>
 autocmd FileType vim noremap <buffer><C-?>				<C-V>^o^x<Esc>
 autocmd FileType tex noremap <buffer>				<C-V>^o^I% <Esc>
@@ -223,9 +223,9 @@ autocmd FileType vim,help,python :nnoremap <buffer><leader>R	<Cmd>let b:winview=
 call plug#begin('~/.vim/plugged')
 
 	Plug 'neoclide/coc.nvim',{'branch': 'release'}
-		"Plug 'liuchengxu/vista.vim'
-		"	let g:vista_default_executive = 'coc'
-		"	nnoremap <Leader>v <Cmd>Vista!!<CR>
+		Plug 'liuchengxu/vista.vim'
+			let g:vista_default_executive = 'coc'
+			nnoremap <Leader>v <Cmd>Vista!!<CR>
 		inoremap <silent><expr> <TAB>
 		  \ pumvisible() ? "\<C-n>" :
 		  \ <SID>check_back_no_identifier() ? "\<TAB>" :
