@@ -30,11 +30,12 @@ set foldmethod=syntax
 "of selecting a different match, use this:
 cnoremap <Left> <Space><BS><Left>
 cnoremap <Right> <Space><BS><Right>
+cnoremap <F8> \<\><Left><Left>
 
 syntax on
 
 "Stop highlighting temporary and clean all messages in command line
-nnoremap <Esc> <Cmd>nohlsearch<bar>echo ''<bar>call coc#util#float_hide()<CR>
+nnoremap <Esc> <Cmd>nohlsearch<bar>echo ''<bar>call coc#float#close_all()<CR>
 nnoremap J	J<Cmd>exe CurrentChar()==' '?'norm! x':''<CR>
 "nnoremap <leader>f gg=G
 noremap <F12> @a
@@ -44,6 +45,9 @@ nnoremap <Space>g* <Cmd>let @/=expand('<cword>')<bar>set hlsearch<CR>
 nnoremap <C-S> <Cmd>update<CR>
 nnoremap <C-W>K <C-W>sK
 
+"extend a one-line C function to four lines
+nnoremap <Space><Space> di{}hi<CR><Right><CR><CR><Up><C-R>"<Esc>=i{
+
 "write the file in insert mode
 inoremap <C-S> <Esc><Cmd>update<CR>
 snoremap <C-S> <Esc><Cmd>update<CR>
@@ -51,6 +55,8 @@ snoremap <C-S> <Esc><Cmd>update<CR>
 inoremap <C-A> <C-O>^
 inoremap <C-E> <C-O>$
 inoremap <C-O> <C-\><C-O>
+
+nnoremap <leader>p viwp
 
 set autoread "When a file has been detected to have been changed outside of Vim and
              "it has not been change inside of Vim, automatically read it again
@@ -239,11 +245,11 @@ call plug#begin('~/.vim/plugged')
 
 		inoremap <silent><expr><C-Space> coc#refresh()
 
-		nnoremap <expr><C-f> coc#util#has_float() ? coc#util#float_scroll(1) : "\<C-f>"
-		nnoremap <expr><C-b> coc#util#has_float() ? coc#util#float_scroll(0) : "\<C-b>"
+		nnoremap <expr><C-f> coc#float#has_float() ? coc#float#float_scroll(1) : "\<C-f>"
+		nnoremap <expr><C-b> coc#float#has_float() ? coc#float#float_scroll(0) : "\<C-b>"
 
-		nnoremap <expr><Tab> "\<Cmd>call " . (coc#util#has_float() 
-					\? "coc#util#float_hide()"
+		nnoremap <expr><Tab> "\<Cmd>silent! call " . (coc#float#has_float() 
+					\? "coc#float#close_all()"
 					\: "CocAction('doHover')" 
 					\) . "<CR>"
 		nnoremap <C-P> <C-I>
@@ -268,7 +274,7 @@ call plug#begin('~/.vim/plugged')
 		nmap <F8> <Plug>(coc-rename)
 
 		nnoremap <leader>f <Cmd>call CocAction('format')<CR>
-		autocmd BufWrite * call CocAction('format')
+		autocmd BufWrite * silent call CocAction('format')
 
 		set updatetime=300
 		autocmd CursorHold * silent call CocActionAsync('highlight')
@@ -278,8 +284,7 @@ call plug#begin('~/.vim/plugged')
 					\'coc-vimlsp','coc-python','coc-omnisharp','coc-go','coc-java',
 					\'coc-snippets','coc-html','coc-xml','coc-ultisnips',
 					\'coc-marketplace','coc-highlight',
-					\'coc-vimtex','coc-docker',
-					\'coc-rainbow-fart']
+					\'coc-vimtex','coc-docker']
 
 		"inoremap <expr><cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
@@ -569,13 +574,20 @@ command! -nargs=0 V exe len(@%) ? "sp" : "e" "~/.vimrc"
 command! -nargs=0 B exe len(@%) ? "sp" : "e" "~/.bashrc"
 command! -nargs=0 T exe len(@%) ? "sp" : "e" "~/.tmux.conf"
 " TODO GNUmakefile makefile Makefile
-command! -nargs=0 M exe len(@%) ? "sp" : "e" "makefile"
+command! -nargs=0 -bang M if <q-bang> == "!" && expand("%:t:e") =~# 'cpp\|c'
+			\| silent exe "!echo" expand("%:t:r").":" "> makefile"
+			\| echo "./makefile written."
+			\| else
+			\| exe len(@%) ? "sp" : "e" "makefile"
+			\| endif
 
 command! -nargs=0 P to vert sp ~/.vim/plugged/
 
 if has('nvim')
 	command! -nargs=0 X silent !chmod u+x %
 endif
+
+"c  cpp
 
 "rename file
 command! -nargs=1 -complete=custom,s:ReComplete Re let temp=expand('%') 

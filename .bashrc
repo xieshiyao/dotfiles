@@ -51,6 +51,8 @@ alias llh='ls --color=auto -lh'
 alias llth='ls --color=auto -lth'
 # alias nv='~/Downloads/nvim.appimage'
 
+alias shogi='mono /home/sudongpo/shogi/ShogiGUIv0.0.7.20/ShogiGUI.exe'
+
 #set -o vi # hang onto your hat
 
 function addpath()
@@ -277,6 +279,16 @@ function mkcd() {
 		shift
 	done
 	cd $1
+}
+
+function share(){
+	echo -n "IP: "
+	ifconfig | awk '/virbr/{getline;print $2}'
+	if [[ $# == 0 ]];then
+		py -m http.server
+	else
+		py -m http.server -d $1
+	fi
 }
 
 
