@@ -175,14 +175,16 @@ autocmd FileType c,cpp,yacc,go,javascript,javascriptreact,css noremap <buffer>	
 autocmd FileType c,cpp,yacc,go,javascript,javascriptreact,css noremap <buffer><C-?>	<C-V>^o^llx<Esc>
 autocmd FileType vim noremap <buffer>				<C-V>^o^I"<Esc>
 autocmd FileType vim noremap <buffer><C-?>				<C-V>^o^x<Esc>
-autocmd FileType tex noremap <buffer>				<C-V>^o^I% <Esc>
-autocmd FileType tex noremap <buffer><C-?>				<C-V>^o^x<Esc>
+autocmd FileType fortran noremap <buffer>				<C-V>^o^I!<Esc>
+autocmd FileType fortran noremap <buffer><C-?>				<C-V>^o^x<Esc>
+autocmd FileType tex,bib noremap <buffer>				<C-V>^o^I% <Esc>
+autocmd FileType tex,bib noremap <buffer><C-?>				<C-V>^o^x<Esc>
 iab   /*   /* */<Esc>hhi
 
 "[ for C debug ]
 nnoremap <C-F5> <Cmd>update<bar>make<CR>
 imap <C-F5> <Esc><C-F5>
-autocmd FileType c,cpp noremap <buffer><F5> <Cmd>exe "Te ./".expand("%:r")<CR>
+autocmd FileType c,cpp,fortran noremap <buffer><F5> <Cmd>exe "Te ./".expand("%:r")<CR>
 nnoremap <F3> <Cmd>cc<CR>
 nnoremap <F2> <Cmd>cN<CR>
 nnoremap <F4> <Cmd>cn<CR>
@@ -281,10 +283,11 @@ call plug#begin('~/.vim/plugged')
 		nnoremap <LeftMouse> <LeftMouse><Cmd>call CocActionAsync('highlight')<CR>
 
 		let g:coc_global_extensions=['coc-json','coc-tsserver','coc-css',
-					\'coc-vimlsp','coc-python','coc-omnisharp','coc-go','coc-java',
+					\'coc-vimlsp','coc-pyright','coc-omnisharp','coc-go','coc-java',
 					\'coc-snippets','coc-html','coc-xml','coc-ultisnips',
 					\'coc-marketplace','coc-highlight',
 					\'coc-vimtex','coc-docker']
+		"autocmd FileType python let b:coc_root_patterns = ['.iamroot','.git', '.env', 'venv', '.venv', 'setup.cfg', 'setup.py', 'pyproject.toml', 'pyrightconfig.json']
 
 		"inoremap <expr><cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
@@ -572,6 +575,7 @@ command! -nargs=0 Sos so ./Session.vim
 
 command! -nargs=0 V exe len(@%) ? "sp" : "e" "~/.vimrc"
 command! -nargs=0 B exe len(@%) ? "sp" : "e" "~/.bashrc"
+command! -nargs=0 C exe len(@%) ? "sp" : "e" ".ccls"
 command! -nargs=0 T exe len(@%) ? "sp" : "e" "~/.tmux.conf"
 " TODO GNUmakefile makefile Makefile
 command! -nargs=0 -bang M if <q-bang> == "!" && expand("%:t:e") =~# 'cpp\|c'

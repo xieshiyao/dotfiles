@@ -71,7 +71,8 @@ addpath /usr/local/go/bin
 
 addpath "$HOME/.local/bin"
 addpath "$HOME/bin"
-# addpath "$HOME/gooo/bin"
+addpath "$HOME/gooo/bin"
+addpath "/usr/lib64/openmpi/bin/"
 
 [ -f $HOME/mylocal.bashrc ] && . $HOME/mylocal.bashrc
 

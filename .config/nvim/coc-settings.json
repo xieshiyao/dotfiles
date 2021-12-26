@@ -21,6 +21,16 @@
 					"directory": "/tmp/ccls"
 				}
 			}
+		},
+		"fortran": {
+			"command": "fortls",
+			"filetypes": [
+				"fortran"
+			],
+			"rootPatterns": [
+				".fortls",
+				".git/"
+			]
 		}
 	},
 	"python.jediEnabled": true,
