@@ -16,7 +16,6 @@ set cindent
 set number
 set ruler
 set hlsearch
-"set termguicolors
 set backspace=indent,eol,start
 "set display+=uhex " Show unprintable characters hexadecimal as <xx> instead of using ^C and ~C
 set mouse=a
@@ -440,7 +439,9 @@ call plug#end()
 
 "colorscheme	gruvbox
 colorscheme	dracula
-set termguicolors
+if !has("mac")
+	set termguicolors
+endif
 " TODO
 " write a command to toggle
 " - backgroud

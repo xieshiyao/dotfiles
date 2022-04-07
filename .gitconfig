@@ -5,8 +5,8 @@
 	show-graph = log --graph --abbrev-commit --pretty=oneline
 	exec = "!exec "    #shell alias are alaways executed in the top-level directory
 [http]
-	sslCAInfo = /etc/pki/tls/certs/ca-bundle.crt
-	sslCAPath = /etc/pki/tls/certs
+	# sslCAInfo = /etc/pki/tls/certs/ca-bundle.crt
+	# sslCAPath = /etc/pki/tls/certs
 	postBuffer = 524288000
 [filter "lfs"]
 	smudge = git-lfs smudge -- %f
