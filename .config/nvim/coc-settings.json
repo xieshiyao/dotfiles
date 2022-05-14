@@ -31,6 +31,23 @@
 				".fortls",
 				".git/"
 			]
+		},
+		"haskell": {
+			"command": "haskell-language-server-wrapper",
+			"args": [
+				"--lsp"
+			],
+			"rootPatterns": [
+				"*.cabal",
+				"stack.yaml",
+				"cabal.project",
+				"package.yaml",
+				"hie.yaml"
+			],
+			"filetypes": [
+				"haskell",
+				"lhaskell"
+			]
 		}
 	},
 	"python.jediEnabled": true,
@@ -58,5 +75,6 @@
 		"vim-plug"
 	],
 	"coc.preferences.formatOnType": true,
+	"codeLens.position": "eol",
 	"xml.java.home": "/usr/lib/jvm/java-openjdk"
 }
