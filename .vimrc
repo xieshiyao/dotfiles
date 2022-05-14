@@ -744,3 +744,4 @@ autocmd FileType sh nnoremap <buffer><F5>	<Cmd>update<bar>Te bash %<CR>
 "Pmenu		Popup menu: normal item.
 
 autocmd BufNewFile /home/sudongpo/update-log/*.txt call append(line('$'),"vim:set nonu:")
+"inoremap <F12> <Esc><Cmd>let temp=@/<CR>/[)}"'\]>]<CR><Cmd>let @/=temp<bar>nohlsearch<CR>a

@@ -53,6 +53,13 @@ alias llth='ls --color=auto -lth'
 
 alias shogi='mono /home/sudongpo/shogi/ShogiGUIv0.0.7.20/ShogiGUI.exe'
 
+# competitive computing
+alias ojt='make && oj t -c ./main'
+alias pojt='oj t -c "python3 main.py"'
+alias accs='acc submit'
+alias ojts='ojt && accs main.cpp'
+alias pojts='pojt && accs main.py'
+
 #set -o vi # hang onto your hat
 
 function addpath()
