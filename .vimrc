@@ -235,7 +235,8 @@ call plug#begin('~/.vim/plugged')
 			nnoremap <Leader>v <Cmd>Vista!!<CR>
 		inoremap <silent><expr> <TAB>
 		  \ pumvisible() ? "\<C-n>" :
-		  \ <SID>check_back_no_identifier() ? "\<TAB>" :
+		  \ <SID>check_back_no_identifier() ? 
+		  \ &ft=="haskell" ? "  " : "\<TAB>" :
 		  \ coc#refresh()
 		inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
@@ -314,7 +315,7 @@ call plug#begin('~/.vim/plugged')
 	Plug 'tpope/vim-fugitive' "Git wrapper
 		Plug 'tpope/vim-rhubarb' "GitHub extension for fugitive.vim
 	Plug 'vim-airline/vim-airline'
-		let g:airline_powerline_fonts = 1
+		"let g:airline_powerline_fonts = 1
 		"let g:airline_left_sep =  "\uE0C0"
 		"let g:airline_right_sep = "\uE0C2"
 		"let g:airline_focuslost_inactive = 1
@@ -570,6 +571,7 @@ command! -nargs=? Te sp | startinsert! | te <args>
 command! -nargs=* Ipy Te ipython3 <args>
 command! -nargs=0 Py Te python3
 command! -nargs=0 Isym Te isympy
+command! -nargs=* GH Te ghci <args>
 
 command! -nargs=0 So so ~/.vimrc
 command! -nargs=0 Sos so ./Session.vim
@@ -686,6 +688,9 @@ endif
 
 autocmd Filetype javascript nnoremap <F5> <Cmd>update %<bar>Te node %<CR>
 autocmd FileType htmldjango let b:AutoPairs=AutoPairsDefine({'{%':'%}','{#':'#}'})
+
+" [ Haskell ]
+autocmd FileType haskell nnoremap <buffer><F5>		<Cmd>update<bar>Te runghc %<CR>
 
 " [ latex ]
 autocmd FileType tex let b:AutoPairs={
