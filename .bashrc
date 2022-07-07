@@ -46,6 +46,7 @@ alias gs='git status'
 alias open='gnome-open'
 
 alias lst='ls --color=auto -t'
+alias ls.='ls --color=auto -d .*'
 alias llt='ls --color=auto -lt'
 alias llh='ls --color=auto -lh'
 alias llth='ls --color=auto -lth'
@@ -54,11 +55,103 @@ alias llth='ls --color=auto -lth'
 alias shogi='mono /home/sudongpo/shogi/ShogiGUIv0.0.7.20/ShogiGUI.exe'
 
 # competitive computing
+_rtl()
+{
+	# Remove trailing newline of a file
+	if [[ $# != 1 ]];then
+		echo "Usage: $FUNCNAME filename"
+		return 1
+	fi
+	if [ -f $1 ]; then
+		perl -p -i -e 'chomp if eof' $1
+		echo Trailing newline in $1 is removed.
+	else
+		return 1
+	fi
+}
 alias ojt='make && oj t -c ./main'
 alias pojt='oj t -c "python3 main.py"'
 alias accs='acc submit'
 alias ojts='ojt && accs main.cpp'
 alias pojts='pojt && accs main.py'
+alias vojt="oj t -c 'bash -c \"cat - > /tmp/vojt_hyq.out;TERM=dumb vim -N -u NONE -i NONE -s ./main.vim /tmp/vojt_hyq.out &> /dev/null;cat /tmp/vojt_hyq.out\"'"
+alias vojts='_rtl main.vim && vojt &&  oj s $(acc task -u) main.vim -l vim'
+alias vaccs='_rtl main.vim && oj s $(acc task -u) main.vim -l vim'
+alias bfojt='oj t -c "bf main.bf"'
+alias bfojts='_rtl main.bf && oj t -c "bf main.bf" && oj s $(acc task -u) main.bf -l brainfuck'
+alias bfaccs='_rtl main.bf && oj s $(acc task -u) main.bf -l brainfuck'
+
+for i in {a..v} ex; do
+	alias $i="cd ../$i 2> /dev/null || cd $i"
+done
+
+atcoderWait()
+{
+	case $# in
+		1)
+			startTime=21:00:00
+			;;
+		2)
+			startTime=$2
+			;;
+		*)
+			echo "Usage: $FUNCNAME contest-id [start-time]"
+			return 1
+			;;
+	esac
+
+	if [ $(basename $PWD) != atcoder ]; then
+		for ((i=0;i<5;i++)); do
+			echo "You may in the wrong directory." >&2
+		done
+	fi
+
+	diffenence=$(( $(date -d $startTime +%s) - $(date +%s) ))
+	echo "Will start trying \`cd $1 && nvim a/main.cpp\` at $(date -d $startTime)($diffenence seconds after)."
+	sleep $diffenence
+	while true; do
+		if [ -f $1/a/main.cpp ]; then
+			cd $1
+			nvim a/main.cpp
+			break
+		fi
+		echo -n 🐍
+		sleep 1
+	done
+}
+
+atcoderDownload()
+{
+	case $# in
+		1)
+			startTime=21:00:00
+			;;
+		2)
+			startTime=$2
+			;;
+		*)
+			echo "Usage: $FUNCNAME contest-id [start-time]"
+			return 1
+			;;
+	esac
+
+	if [ $(basename $PWD) != atcoder ]; then
+		for ((i=0;i<5;i++)); do
+			echo "You may in the wrong directory." >&2
+		done
+	fi
+
+	diffenence=$(( $(date -d $startTime +%s) - $(date +%s) ))
+	echo "Will start trying download at $(date -d $startTime)($diffenence seconds after)."
+	sleep $diffenence
+	while true; do
+		acc new $1
+		if [ -f $1/a/main.cpp ]; then
+			cd $1/a
+			break
+		fi
+	done
+}
 
 #set -o vi # hang onto your hat
 

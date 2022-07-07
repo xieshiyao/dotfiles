@@ -188,6 +188,10 @@ nnoremap <F3> <Cmd>cc<CR>
 nnoremap <F2> <Cmd>cN<CR>
 nnoremap <F4> <Cmd>cn<CR>
 
+packadd! termdebug
+	let g:termdebug_useFloatingHover = 0
+	nnoremap <RightMouse> <LeftMouse><Cmd>Evaluate<CR>
+
 "[ for vim script ]
 autocmd FileType vim nnoremap	<buffer><F5>		<Cmd>silent update<bar>so %<CR>
 
@@ -358,6 +362,7 @@ call plug#begin('~/.vim/plugged')
 
 	Plug 'lervag/vimtex'
 		let g:tex_flavor='latex'
+		let g:vimtex_fold_enabled=1
 		"let g:vimtex_compiler_progname='nvr'
 	Plug 'wellle/targets.vim'
 	"Plug 'sheerun/vim-polyglot'
@@ -711,6 +716,13 @@ let g:tex_fold_enabled=1
 " [ bash, shell ]
 autocmd FileType sh nnoremap <buffer><F5>	<Cmd>update<bar>Te bash %<CR>
 
+"[ Competitive programming ]
+imap <F12> <Esc><Space>i
+nnoremap <Space>i <Cmd>call CocAction('format')<CR>yyp
+			\<Cmd>s/\v\s*\zs.{-}\ze\s\w+,/cin >>/
+			\<bar>s/,/ >>/g
+			\<bar>nohlsearch<CR>
+			\o
 
 "[ test zone ]
 
