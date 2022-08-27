@@ -184,6 +184,9 @@ iab   /*   /* */<Esc>hhi
 nnoremap <C-F5> <Cmd>update<bar>make<CR>
 imap <C-F5> <Esc><C-F5>
 autocmd FileType c,cpp,fortran noremap <buffer><F5> <Cmd>exe "Te ./".expand("%:r")<CR>
+" v:count to specify number of processes to use for running the program
+autocmd FileType c,cpp,fortran noremap <buffer><S-F5> 
+			\<Cmd>exe "Te" v:count?("N="..v:count):"" "make run"<CR>
 nnoremap <F3> <Cmd>cc<CR>
 nnoremap <F2> <Cmd>cN<CR>
 nnoremap <F4> <Cmd>cn<CR>
@@ -191,6 +194,22 @@ nnoremap <F4> <Cmd>cn<CR>
 packadd! termdebug
 	let g:termdebug_useFloatingHover = 0
 	nnoremap <RightMouse> <LeftMouse><Cmd>Evaluate<CR>
+	"command! -nargs=0 D exe "Termdebug" "./main" | Source | exe "norm \<c-w>H" | Gdb | startinsert!
+	command! -nargs=? -complete=custom,s:DComplete D 
+				\| exe "Termdebug" len(<q-args>)?<q-args>:expand("%:r")
+				\| exe "Source" 
+				\| exe "norm \<c-w>H" 
+				\| exe "Program"
+				\| exe "norm z6\<Enter>"
+				\| exe "Gdb" 
+				\| startinsert!
+	function! s:DComplete(_,__,___)
+		return expand("%:r")
+	endfunction
+	"command! -nargs=0 D exe "Termdebug" "./main" | exe "norm \<c-w>H" | Gdb | startinsert!
+	"command! -nargs=0 D exe "Termdebug" "./main" | exe "norm \<c-w>H" | echo "hello"
+	"command! -nargs=0 D Termdebug main | Source | Gdb | startinsert! | echo "hello"
+	"command! -nargs=0 D Termdebug main <bar> echo "hello"
 
 "[ for vim script ]
 autocmd FileType vim nnoremap	<buffer><F5>		<Cmd>silent update<bar>so %<CR>
@@ -363,6 +382,10 @@ call plug#begin('~/.vim/plugged')
 	Plug 'lervag/vimtex'
 		let g:tex_flavor='latex'
 		let g:vimtex_fold_enabled=1
+		let g:vimtex_quickfix_ignore_filters=[
+					\ 'Underfull',
+					\ 'Overfull'
+					\]
 		"let g:vimtex_compiler_progname='nvr'
 	Plug 'wellle/targets.vim'
 	"Plug 'sheerun/vim-polyglot'
@@ -718,11 +741,21 @@ autocmd FileType sh nnoremap <buffer><F5>	<Cmd>update<bar>Te bash %<CR>
 
 "[ Competitive programming ]
 imap <F12> <Esc><Space>i
-nnoremap <Space>i <Cmd>call CocAction('format')<CR>yyp
-			\<Cmd>s/\v\s*\zs.{-}\ze\s\w+,/cin >>/
+nnoremap <Space>i yyp
+			\<Cmd>s/\v\s*\zs.{-}\ze\s\w+[,;]/cin >>/
 			\<bar>s/,/ >>/g
+			\<bar>call CocAction('format')
 			\<bar>nohlsearch<CR>
 			\o
+
+let cp_dict={'a':'b','b':'c','c':'d','d':'e','e':'f','f':'g','g':'ex'}
+let cp_rev_dict={'b':'a','c':'b','d':'c','e':'d','f':'e','g':'f','ex':'g'}
+nnoremap <Space>l <Cmd>exe "cd" "../"..cp_dict[expand("%:p:h:t")]
+			\<bar>e ./main.cpp
+			\<bar>pwd<CR>
+nnoremap <Space>h <Cmd>exe "cd" "../"..cp_rev_dict[expand("%:p:h:t")]
+			\<bar>e ./main.cpp
+			\<bar>pwd<CR>
 
 "[ test zone ]
 

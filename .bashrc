@@ -85,6 +85,10 @@ for i in {a..v} ex; do
 	alias $i="cd ../$i 2> /dev/null || cd $i"
 done
 
+for i in {1..3}; do
+	alias "t$i=./main < ./test/sample-$i.in"
+done
+
 atcoderWait()
 {
 	case $# in
@@ -102,12 +106,12 @@ atcoderWait()
 
 	if [ $(basename $PWD) != atcoder ]; then
 		for ((i=0;i<5;i++)); do
-			echo "You may in the wrong directory." >&2
+			echo "You may be in the wrong directory." >&2
 		done
 	fi
 
 	diffenence=$(( $(date -d $startTime +%s) - $(date +%s) ))
-	echo "Will start trying \`cd $1 && nvim a/main.cpp\` at $(date -d $startTime)($diffenence seconds after)."
+	echo "Will start trying \`cd $1 && nvim a/main.cpp\` at $(date -d $startTime)($diffenence seconds later)."
 	sleep $diffenence
 	while true; do
 		if [ -f $1/a/main.cpp ]; then
