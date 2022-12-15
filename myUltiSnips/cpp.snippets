@@ -10,10 +10,6 @@ snippet s "std::" i
 std::
 endsnippet
 
-snippet ll "long long" i
-long long
-endsnippet
-
 snippet io "fast io"
 ios_base::sync_with_stdio(false);
 cin.tie(0);
@@ -25,12 +21,20 @@ for (int i = 0; i < n; i++)
 
 endsnippet
 
-snippet vi "vector of ints"
+snippet vi "vector of ints" i
 vector<int> 
 endsnippet
 
-snippet vl "vector of long longs"
-vector<long long> 
+snippet vl "vector of longs" i
+vector<long> 
+endsnippet
+
+snippet pl "pair of two longs" i
+pair<long, long> 
+endsnippet
+
+snippet pi "pair of two ints" i
+pair<int, int> 
 endsnippet
 
 snippet p "print a vector"
@@ -40,15 +44,15 @@ endsnippet
 
 snippet cp_inv "function for modulo division"
 /* x^y % m */
-long long power(long long x, long long y, long long m)
+long power(long x, long y, long m)
 {
 	if (y == 0)
 		return 1;
-	long long p = power(x, y / 2, m) % m;
+	long p = power(x, y / 2, m) % m;
 	p = (p * p) % m;
 
 	return (y % 2 == 0) ? p : (x * p) % m;
 }
 
-long long inv(long long a) { return power(a, MOD - 2, MOD); }
+long inv(long a) { return power(a, MOD - 2, MOD); }
 endsnippet

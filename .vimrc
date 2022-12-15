@@ -170,8 +170,8 @@ ia csapph #include"csapp.h"<CR>int main(void)<CR>{<CR>return 0:<CR>}<Esc>3ggo
 "[ make comment ]
 noremap   <C-V>^o^I# <Esc>	|	"default
 noremap <C-?> <C-V>^o^lx		|	"default
-autocmd FileType c,cpp,yacc,go,javascript,javascriptreact,css noremap <buffer>		<C-V>^o^I// <Esc>
-autocmd FileType c,cpp,yacc,go,javascript,javascriptreact,css noremap <buffer><C-?>	<C-V>^o^llx<Esc>
+autocmd FileType c,cpp,yacc,go,javascript,javascriptreact,css,java noremap <buffer>		<C-V>^o^I// <Esc>
+autocmd FileType c,cpp,yacc,go,javascript,javascriptreact,css,java noremap <buffer><C-?>	<C-V>^o^llx<Esc>
 autocmd FileType vim noremap <buffer>				<C-V>^o^I"<Esc>
 autocmd FileType vim noremap <buffer><C-?>				<C-V>^o^x<Esc>
 autocmd FileType fortran noremap <buffer>				<C-V>^o^I!<Esc>
@@ -179,6 +179,16 @@ autocmd FileType fortran noremap <buffer><C-?>				<C-V>^o^x<Esc>
 autocmd FileType tex,bib noremap <buffer>				<C-V>^o^I% <Esc>
 autocmd FileType tex,bib noremap <buffer><C-?>				<C-V>^o^x<Esc>
 iab   /*   /* */<Esc>hhi
+
+"[ for Java ]
+autocmd BufWritePost *.java silent !javac %
+autocmd FileType java nnoremap <buffer><C-F5> <Cmd>update<bar>!javac %<CR>
+autocmd FileType java nnoremap <buffer><F5> <Cmd>
+			\if filereadable(expand("%:r").'.class')
+				\<bar>exe "Te java" expand("%:r")
+			\<bar>else
+				\<bar>update<bar>exe "Te java" expand("%")
+			\<bar>endif<CR>
 
 "[ for C debug ]
 nnoremap <C-F5> <Cmd>update<bar>make<CR>
@@ -243,7 +253,7 @@ imap	<F5>		<Esc><F5>
 imap	<S-F5>		<Esc><S-F5>
 
 " run the codes in current screen
-autocmd FileType vim,help,python :nnoremap <buffer><leader>R	<Cmd>let b:winview=winsaveview()
+autocmd FileType vim,help,python nnoremap <buffer><leader>R	<Cmd>let b:winview=winsaveview()
 												\<bar>exe line('w0').",".line('w$').'call <SID>run()'
 												\<bar>if exists('b:winview')
 													\<bar>call winrestview(b:winview)
@@ -256,16 +266,21 @@ call plug#begin('~/.vim/plugged')
 		Plug 'liuchengxu/vista.vim'
 			let g:vista_default_executive = 'coc'
 			nnoremap <Leader>v <Cmd>Vista!!<CR>
-		inoremap <silent><expr> <TAB>
-		  \ pumvisible() ? "\<C-n>" :
-		  \ <SID>check_back_no_identifier() ? 
-		  \ &ft=="haskell" ? "  " : "\<TAB>" :
-		  \ coc#refresh()
-		inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-		function! s:check_back_no_identifier() abort
+		inoremap <silent><expr> <TAB>
+			  \ coc#pum#visible() ? coc#pum#next(1):
+			  \ CheckBackspace() ? 
+			  \ &ft=="haskell" ? " " : "\<Tab>" :
+			  \ coc#refresh()
+		inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+		"function! s:check_back_no_identifier() abort
+		"  let col = col('.') - 1
+		"  return !col || getline('.')[col - 1]  !~# '\w\|\.'
+		"endfunction
+		function! CheckBackspace() abort
 		  let col = col('.') - 1
-		  return !col || getline('.')[col - 1]  !~# '\w\|\.'
+		  return !col || getline('.')[col - 1]  =~# '\s'
 		endfunction
 
 		inoremap <silent><expr><C-Space> coc#refresh()
@@ -299,7 +314,7 @@ call plug#begin('~/.vim/plugged')
 		nmap <F8> <Plug>(coc-rename)
 
 		nnoremap <leader>f <Cmd>call CocAction('format')<CR>
-		autocmd BufWrite * silent call CocAction('format')
+		"autocmd BufWrite * silent call CocAction('format')
 
 		set updatetime=300
 		autocmd CursorHold * silent call CocActionAsync('highlight')
@@ -354,6 +369,7 @@ call plug#begin('~/.vim/plugged')
 		Plug 'honza/vim-snippets'
 		"let g:UltiSnipsJumpForwardTrigger = '<C-j>'
 		"let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
+	Plug 'NLKNguyen/papercolor-theme'
 	Plug 'morhetz/gruvbox'
 		let g:gruvbox_contrast_dark='hard'
 		command! -nargs=? -complete=custom,s:SoftMediumHard Theme 
@@ -384,7 +400,8 @@ call plug#begin('~/.vim/plugged')
 		let g:vimtex_fold_enabled=1
 		let g:vimtex_quickfix_ignore_filters=[
 					\ 'Underfull',
-					\ 'Overfull'
+					\ 'Overfull',
+					\ 'relsize Warning',
 					\]
 		"let g:vimtex_compiler_progname='nvr'
 	Plug 'wellle/targets.vim'
@@ -551,6 +568,15 @@ nnoremap <A-z> <Cmd>call <SID>close_previous_window()<CR>
 autocmd FileType man,help,qf nnoremap <nowait><buffer>d 
 autocmd FileType man,help,qf nnoremap <buffer>u 
 autocmd FileType man,help,qf nnoremap <buffer>q ZQ
+
+" for cppman
+"autocmd BufReadPost * if b:current_syntax=="man"
+autocmd VimEnter * if exists('b:current_syntax') && b:current_syntax=="man"
+	autocmd VimEnter * nnoremap <nowait><buffer>d  
+						\|nnoremap <buffer>u 
+						\|nnoremap <buffer>q ZQ
+autocmd VimEnter * endif
+
 if has('nvim')
 	autocmd TermOpen * nnoremap <nowait><buffer>d 
 	autocmd TermOpen * nnoremap <buffer>u 
@@ -702,7 +728,11 @@ endfunction
 "first, :0read skeleton.<filetype>
 "then use 'norm! Gdd' to delete last line
 "finally :exe <filetype>.vim
-autocmd BufNewFile *.c 0r ~/.vim/skeleton.c | norm! Gdd5gg
+autocmd BufNewFile *.c 0r ~/.vim/skeleton.c | norm! Gdd5G
+autocmd BufNewFile *.java 0r ~/.vim/skeleton.java 
+			\| exe 's/CLASSNAME/'.expand("%:r").'/'
+			\| norm! Gdd2G^
+autocmd BufNewFile *.cpp 0r ~/.vim/skeleton.cpp | norm! Gdd5G
 
 
 "[ web development ] [ html javascript xhtml django ]
@@ -743,7 +773,7 @@ autocmd FileType sh nnoremap <buffer><F5>	<Cmd>update<bar>Te bash %<CR>
 imap <F12> <Esc><Space>i
 nnoremap <Space>i yyp
 			\<Cmd>s/\v\s*\zs.{-}\ze\s\w+[,;]/cin >>/
-			\<bar>s/,/ >>/g
+			\<bar>s/,/ >>/ge
 			\<bar>call CocAction('format')
 			\<bar>nohlsearch<CR>
 			\o
@@ -756,6 +786,19 @@ nnoremap <Space>l <Cmd>exe "cd" "../"..cp_dict[expand("%:p:h:t")]
 nnoremap <Space>h <Cmd>exe "cd" "../"..cp_rev_dict[expand("%:p:h:t")]
 			\<bar>e ./main.cpp
 			\<bar>pwd<CR>
+
+"[ Input Method ]
+if executable("gsettings")&&executable("xdotool")
+	function! IfJapSwitch()
+		let langs=system('gsettings get org.gnome.desktop.input-sources mru-sources')
+		if langs=~"[('ibus', 'mozc-jp')"
+			call jobstart(['xdotool','key','Hankaku'])
+		endif
+	endfunction
+
+	autocmd InsertLeavePre * call IfJapSwitch()
+	autocmd InsertEnter * call IfJapSwitch()
+endif
 
 "[ test zone ]
 

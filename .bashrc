@@ -69,16 +69,20 @@ _rtl()
 		return 1
 	fi
 }
-alias ojt='make && oj t -c ./main'
-alias pojt='oj t -c "python3 main.py"'
+alias ojt='make && oj t -c ./main -S'
+alias pojt='oj t -c "python3 main.py" -S'
+# alias jojt='oj t -c "java Main.java" -S'
+alias jojt='oj t -c "java Main" -S'
 alias accs='acc submit'
 alias ojts='ojt && accs main.cpp'
 alias pojts='pojt && accs main.py'
-alias vojt="oj t -c 'bash -c \"cat - > /tmp/vojt_hyq.out;TERM=dumb vim -N -u NONE -i NONE -s ./main.vim /tmp/vojt_hyq.out &> /dev/null;cat /tmp/vojt_hyq.out\"'"
+alias jojts='jojt && jaccs'
+alias vojt="oj t -c 'bash -c \"cat - > /tmp/vojt_hyq.out;TERM=dumb vim -N -u NONE -i NONE -s ./main.vim /tmp/vojt_hyq.out &> /dev/null;cat /tmp/vojt_hyq.out\"' -S"
 alias vojts='_rtl main.vim && vojt &&  oj s $(acc task -u) main.vim -l vim'
 alias vaccs='_rtl main.vim && oj s $(acc task -u) main.vim -l vim'
-alias bfojt='oj t -c "bf main.bf"'
-alias bfojts='_rtl main.bf && oj t -c "bf main.bf" && oj s $(acc task -u) main.bf -l brainfuck'
+alias jaccs='oj s $(acc task -u) Main.java -l 4005'
+alias bfojt='oj t -c "bf main.bf" -S'
+alias bfojts='_rtl main.bf && oj t -c "bf main.bf" -S && oj s $(acc task -u) main.bf -l brainfuck'
 alias bfaccs='_rtl main.bf && oj s $(acc task -u) main.bf -l brainfuck'
 
 for i in {a..v} ex; do
@@ -330,6 +334,7 @@ cd..()
 }
 
 export MANPAGER='nvim +Man!'
+# export COMP_WORDBREAKS=" /\"\'><;|&(" # It seems that this line breaks fzf
 
 if ! $MACOS; then
 	alias ls='ls -G'
@@ -363,7 +368,7 @@ complete -o bashdefault -o default -F _fzf_path_completion nv
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-stty -ixon # disable ^S which freeze my terminal
+[[ $- == *i* ]] && stty -ixon # disable ^S which freeze my terminal
 
 function fq()
 {
@@ -406,3 +411,7 @@ function share(){
 #		$ ls
 #		dir1/ dir2/ file1 something else
 
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
