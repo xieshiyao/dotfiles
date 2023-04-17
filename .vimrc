@@ -402,6 +402,7 @@ call plug#begin('~/.vim/plugged')
 					\ 'Underfull',
 					\ 'Overfull',
 					\ 'relsize Warning',
+					\ 'usage of the caption package is not recommended',
 					\]
 		"let g:vimtex_compiler_progname='nvr'
 	Plug 'wellle/targets.vim'
@@ -798,7 +799,19 @@ if executable("gsettings")&&executable("xdotool")
 
 	autocmd InsertLeavePre * call IfJapSwitch()
 	autocmd InsertEnter * call IfJapSwitch()
+	"nnoremap あ a<Cmd>call jobstart(['xdotool','key','Hankaku'])<CR>
+	"nnoremap い i<Cmd>call jobstart(['xdotool','key','Hankaku'])<CR>
+	"nnoremap お i<Cmd>call jobstart(['xdotool','key','Hankaku'])<CR>
+	"nnoremap ｓ s<Cmd>call jobstart(['xdotool','key','Hankaku'])<CR>
+	nnoremap あ a
+	nnoremap い i
+	nnoremap お o
+	nnoremap ｓ s
+	nnoremap ｊ j<Cmd>call jobstart(['xdotool','key','Hankaku'])<CR>
+	nnoremap う u<Cmd>call jobstart(['xdotool','key','Hankaku'])<CR>
+	nnoremap <Enter> <Cmd>call jobstart(['xdotool','key','Hankaku'])<CR>
 endif
+
 
 "[ test zone ]
 

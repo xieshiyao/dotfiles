@@ -16,8 +16,8 @@ cin.tie(0);
 endsnippet
 
 snippet r "read array"
-for (int i = 0; i < n; i++)
-	cin >> ${1:a}[i];
+for (auto& x : ${1:a})
+	cin >> x;
 
 endsnippet
 
@@ -55,4 +55,62 @@ long power(long x, long y, long m)
 }
 
 long inv(long a) { return power(a, MOD - 2, MOD); }
+endsnippet
+
+snippet cp_union_find "Class UnionFind"
+class UnionFind
+{
+	vector<int> p;
+
+public:
+	UnionFind(int n) { p = vector<int>(n, -1); }
+	int find(int n)
+	{
+		if (p[n] < 0)
+			return n;
+		else
+			return p[n] = find(p[n]);
+	}
+	void join(int a, int b)
+	{
+		int ra = find(a), rb = find(b);
+		if (ra == rb)
+			return;
+		if (p[ra] < p[rb])
+		{
+			p[ra] += p[rb];
+			p[rb] = ra;
+		}
+		else
+		{
+			p[rb] += p[ra];
+			p[ra] = rb;
+		}
+	}
+};
+endsnippet
+
+snippet cp_graph "read graph"
+vector<vector<int>> g(n);
+for (int i = 0; i < m; i++)
+{
+	int a, b;
+	cin >> a >> b;
+	a--, b--;
+	g[a].push_back(b);
+	g[b].push_back(a);
+}
+endsnippet
+
+snippet cp_primes "compute prime list"
+const int SIZE = 3e6;
+vector<bool> isP(SIZE + 1, true);
+for (int i = 2; i <= sqrt(SIZE); i++)
+	if (isP[i])
+		for (int j = 2 * i; j <= SIZE; j += i)
+			isP[j] = false;
+vector<int> primes;
+for (int i = 2; i <= SIZE; i++)
+	if (isP[i])
+		primes.push_back(i);
 endsnippet
