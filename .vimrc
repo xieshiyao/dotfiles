@@ -851,3 +851,6 @@ endif
 
 autocmd BufNewFile /home/sudongpo/update-log/*.txt call append(line('$'),"vim:set nonu:")
 "inoremap <F12> <Esc><Cmd>let temp=@/<CR>/[)}"'\]>]<CR><Cmd>let @/=temp<bar>nohlsearch<CR>a
+if filereadable(expand("~/.vimrc.local"))
+	so ~/.vimrc.local
+endif

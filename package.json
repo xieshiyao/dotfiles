@@ -6,9 +6,9 @@
   "dependencies": {
     "coc-ccls": "^0.0.4",
     "msbuild": "^1.1.2",
+    "neovim": "^4.10.1",
     "typescript": "^3.5.3"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

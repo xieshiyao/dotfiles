@@ -314,7 +314,7 @@ export plugin=$HOME/.vim/plugged
 export xunlei=$HOME/.deepinwine/Deepin-ThunderSpeed/drive_c/迅雷下载/
 export swp=~/.local/share/nvim/swap
 
-cd..()
+function cd..()
 {
 	case $# in
 		0)
