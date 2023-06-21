@@ -119,8 +119,8 @@ atcoderWait()
 	sleep $diffenence
 	while true; do
 		if [ -f $1/a/main.cpp ]; then
-			cd $1
-			nvim a/main.cpp
+			cd $1/a
+			nvim main.cpp
 			break
 		fi
 		echo -n 🐍
