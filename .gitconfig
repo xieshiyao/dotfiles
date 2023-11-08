@@ -17,3 +17,5 @@
 	clean = git-lfs clean -- %f
 [credential]
 	# helper = libsecret
+[core]
+	editor = nvim

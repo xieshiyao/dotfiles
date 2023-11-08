@@ -179,8 +179,8 @@ addpath /usr/local/python3/bin
 addpath /usr/local/go/bin 
 # addpath /usr/local/cuda/bin
 
-addpath "$HOME/.local/bin"
-addpath "$HOME/bin"
+addpath "$HOME/.local/bin" before
+addpath "$HOME/bin" before
 addpath "$HOME/gooo/bin"
 addpath "/usr/lib64/openmpi/bin/"
 
