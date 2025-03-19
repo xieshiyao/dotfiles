@@ -44,6 +44,7 @@ alias please='sudo dnf'
 alias view='nvim -R'
 alias gs='git status'
 alias open='gnome-open'
+alias Man="nv '+set ft=man'"
 
 alias lst='ls --color=auto -t'
 alias ls.='ls --color=auto -d .*'
@@ -52,7 +53,7 @@ alias llh='ls --color=auto -lh'
 alias llth='ls --color=auto -lth'
 # alias nv='~/Downloads/nvim.appimage'
 
-alias shogi='mono /home/sudongpo/shogi/ShogiGUIv0.0.7.20/ShogiGUI.exe'
+alias shogi='mono /home/sudongpo/shogi/ShogiGUI/ShogiGUI.exe'
 
 # competitive computing
 _rtl()
@@ -75,11 +76,12 @@ alias pojt='oj t -c "python3 main.py" -S'
 alias jojt='oj t -c "java Main" -S'
 alias accs='acc submit'
 alias ojts='ojt && accs main.cpp'
-alias pojts='pojt && accs main.py'
+alias pojts='pojt && paccs'
 alias jojts='jojt && jaccs'
 alias vojt="oj t -c 'bash -c \"cat - > /tmp/vojt_hyq.out;TERM=dumb vim -N -u NONE -i NONE -s ./main.vim /tmp/vojt_hyq.out &> /dev/null;cat /tmp/vojt_hyq.out\"' -S"
 alias vojts='_rtl main.vim && vojt &&  oj s $(acc task -u) main.vim -l vim'
 alias vaccs='_rtl main.vim && oj s $(acc task -u) main.vim -l vim'
+alias paccs='oj s $(acc task -u) main.py -l 5055'
 alias jaccs='oj s $(acc task -u) Main.java -l 4005'
 alias bfojt='oj t -c "bf main.bf" -S'
 alias bfojts='_rtl main.bf && oj t -c "bf main.bf" -S && oj s $(acc task -u) main.bf -l brainfuck'
@@ -114,9 +116,9 @@ atcoderWait()
 		done
 	fi
 
-	diffenence=$(( $(date -d $startTime +%s) - $(date +%s) ))
-	echo "Will start trying \`cd $1 && nvim a/main.cpp\` at $(date -d $startTime)($diffenence seconds later)."
-	sleep $diffenence
+	difference=$(( $(date -d $startTime +%s) - $(date +%s) ))
+	echo "Will start trying \`cd $1 && nvim a/main.cpp\` at $(date -d $startTime)($difference seconds later)."
+	sleep $difference
 	while true; do
 		if [ -f $1/a/main.cpp ]; then
 			cd $1/a
@@ -149,9 +151,9 @@ atcoderDownload()
 		done
 	fi
 
-	diffenence=$(( $(date -d $startTime +%s) - $(date +%s) ))
-	echo "Will start trying download at $(date -d $startTime)($diffenence seconds after)."
-	sleep $diffenence
+	difference=$(( $(date -d $startTime +%s) - $(date +%s) ))
+	echo "Will start trying download at $(date -d $startTime)($difference seconds after)."
+	sleep $difference
 	while true; do
 		acc new $1
 		if [ -f $1/a/main.cpp ]; then

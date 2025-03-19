@@ -2,8 +2,8 @@ snippet b "begin(),end()" i
 begin(${1:${VISUAL}}), end($1)
 endsnippet
 
-snippet cb "begin(),end()" i
-cbegin(${1:${VISUAL}}), cend($1)
+snippet rb "rbegin(),rend()" i
+rbegin(${1:${VISUAL}}), rend($1)
 endsnippet
 
 snippet s "std::" i
@@ -31,6 +31,10 @@ endsnippet
 
 snippet vb "vector of bools" i
 vector<bool> 
+endsnippet
+
+snippet vst "vector of Strings" i
+vector<string> 
 endsnippet
 
 snippet vv "vector of vectors" i
@@ -121,4 +125,8 @@ vector<int> primes;
 for (int i = 2; i <= SIZE; i++)
 	if (isP[i])
 		primes.push_back(i);
+endsnippet
+
+snippet omp "opemmp directive" i
+#pragma omp ${1:parallel}
 endsnippet

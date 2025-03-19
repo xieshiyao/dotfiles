@@ -6,7 +6,8 @@
 				"c",
 				"cpp",
 				"objc",
-				"objcpp"
+				"objcpp",
+				"cuda"
 			],
 			"rootPatterns": [
 				".ccls",
@@ -51,6 +52,7 @@
 		}
 	},
 	"python.jediEnabled": true,
+	"inlayHint.enable": false,
 	"python.linting.pylintArgs": [
 		"--errors-only",
 		"--generated-members=numpy.*,torch.*,cv2.*"

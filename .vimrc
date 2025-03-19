@@ -170,8 +170,8 @@ ia csapph #include"csapp.h"<CR>int main(void)<CR>{<CR>return 0:<CR>}<Esc>3ggo
 "[ make comment ]
 noremap   <C-V>^o^I# <Esc>	|	"default
 noremap <C-?> <C-V>^o^lx		|	"default
-autocmd FileType c,cpp,yacc,go,javascript,javascriptreact,css,java noremap <buffer>		<C-V>^o^I// <Esc>
-autocmd FileType c,cpp,yacc,go,javascript,javascriptreact,css,java noremap <buffer><C-?>	<C-V>^o^llx<Esc>
+autocmd FileType c,cpp,cuda,yacc,go,javascript,javascriptreact,css,java noremap <buffer>		<C-V>^o^I// <Esc>
+autocmd FileType c,cpp,cuda,yacc,go,javascript,javascriptreact,css,java noremap <buffer><C-?>	<C-V>^o^llx<Esc>
 autocmd FileType vim noremap <buffer>				<C-V>^o^I"<Esc>
 autocmd FileType vim noremap <buffer><C-?>				<C-V>^o^x<Esc>
 autocmd FileType fortran noremap <buffer>				<C-V>^o^I!<Esc>
@@ -193,9 +193,9 @@ autocmd FileType java nnoremap <buffer><F5> <Cmd>
 "[ for C debug ]
 nnoremap <C-F5> <Cmd>update<bar>make<CR>
 imap <C-F5> <Esc><C-F5>
-autocmd FileType c,cpp,fortran noremap <buffer><F5> <Cmd>exe "Te ./".expand("%:r")<CR>
+autocmd FileType c,cpp,fortran,cuda noremap <buffer><F5> <Cmd>exe "Te ./".expand("%:r")<CR>
 " v:count to specify number of processes to use for running the program
-autocmd FileType c,cpp,fortran noremap <buffer><S-F5> 
+autocmd FileType c,cpp,fortran,cuda noremap <buffer><S-F5> 
 			\<Cmd>exe "Te" v:count?("N="..v:count):"" "make run"<CR>
 nnoremap <F3> <Cmd>cc<CR>
 nnoremap <F2> <Cmd>cN<CR>
@@ -431,7 +431,7 @@ call plug#begin('~/.vim/plugged')
 	Plug 'dracula/vim', { 'as': 'dracula' }
 	"Plug 'mhinz/vim-signify'
 
-	"Plug 'ryanoasis/vim-devicons' "Adds file type icons to Vim plugins
+	Plug 'ryanoasis/vim-devicons' "Adds file type icons to Vim plugins
 		"let g:webdevicons_enable_airline_statusline=0
 " NERDTrees File highlighting
 "function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
