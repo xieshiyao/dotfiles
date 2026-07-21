@@ -1,6 +1,3 @@
-set runtimepath^=~/.vim rtp+=~/.vim/after
-let &packpath=&runtimepath
-
 "<F5> means run
 "<S-F5> means run the lines selected in visual mode, or, in normal mode, the
 "current line
@@ -262,11 +259,9 @@ autocmd FileType vim,help,python nnoremap <buffer><leader>R	<Cmd>let b:winview=w
 													\<bar>call winrestview(b:winview)
 												\<bar>endif<CR>
 
-" [ vim-plug ] [ plugins ] [ coc ]
-call plug#begin('~/.vim/plugged')
+" [ lazy.nvim ] [ plugins ] [ coc ]
+lua require('config.lazy')
 
-	Plug 'neoclide/coc.nvim',{'branch': 'release'}
-		Plug 'liuchengxu/vista.vim'
 			let g:vista_default_executive = 'coc'
 			nnoremap <Leader>v <Cmd>Vista!!<CR>
 
@@ -342,38 +337,24 @@ call plug#begin('~/.vim/plugged')
 	"Plug 'chrisbra/changesPlugin'
 	"Plug 'johngrib/vim-game-code-break'
 	"Plug 'johngrib/vim-game-snake'
-	Plug 'vim/killersheep'
 	"Plug 'suan/vim-instant-markdown'
 	"Plug 'shime/vim-livedown'
-	Plug 'tmhedberg/SimpylFold' "for python
 		let g:SimpylFold_docstring_preview=1
-	Plug 'jiangmiao/auto-pairs'
 		let g:AutoPairsShortcutToggle=''  "Default is '<M-p>'
-	Plug 'scrooloose/nerdtree'
 		map <C-n> <Cmd>NERDTreeToggle<CR>
 		autocmd FileType nerdtree nnoremap  <buffer>/  /\c
-	Plug 'preservim/nerdcommenter'
-	Plug 'tpope/vim-fugitive' "Git wrapper
-		Plug 'tpope/vim-rhubarb' "GitHub extension for fugitive.vim
-	Plug 'vim-airline/vim-airline'
 		"let g:airline_powerline_fonts = 1
 		"let g:airline_left_sep =  "\uE0C0"
 		"let g:airline_right_sep = "\uE0C2"
 		"let g:airline_focuslost_inactive = 1
 		"Plug 'vim-airline/vim-airline-themes'
-	Plug 'vim-scripts/matchit.zip'
-	Plug 'vim-scripts/python_match.vim'
-	Plug 'SirVer/ultisnips'
 		let g:UltiSnipsEditSplit='horizontal'
 		let g:UltiSnipsExpandTrigger='<C-j>'
 		" TODO use different Trigger for Expansion and JumpForward
 		let g:UltiSnipsSnippetsDir=$HOME.'/myUltiSnips/'
 		let g:UltiSnipsSnippetDirectories=[$HOME."/myUltiSnips", "UltiSnips"]
-		Plug 'honza/vim-snippets'
 		"let g:UltiSnipsJumpForwardTrigger = '<C-j>'
 		"let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
-	Plug 'NLKNguyen/papercolor-theme'
-	Plug 'morhetz/gruvbox'
 		let g:gruvbox_contrast_dark='hard'
 		command! -nargs=? -complete=custom,s:SoftMediumHard Theme 
 					\if len(<q-args>)>0
@@ -388,17 +369,14 @@ call plug#begin('~/.vim/plugged')
 		function! s:SoftMediumHard(_,__,___)
 			return join(['soft','medium','hard'],"\n")
 		endfunction
-	Plug 'nixon/vim-vmath'
 		vmap <expr>  ++  VMATH_YankAndAnalyse()
 		nmap         ++  vip++
-	Plug 'atweiden/vim-dragvisuals'
 		vmap <expr> <left> DVB_Drag('left')
 		vmap <expr> <right> DVB_Drag('right')
 		vmap <expr> <down> DVB_Drag('down')
 		vmap <expr> <up> DVB_Drag('up')
 		vmap <expr> D DVB_Duplicate()
 
-	Plug 'lervag/vimtex'
 		let g:tex_flavor='latex'
 		let g:vimtex_fold_enabled=1
 		let g:vimtex_quickfix_ignore_filters=[
@@ -408,12 +386,9 @@ call plug#begin('~/.vim/plugged')
 					\ 'usage of the caption package is not recommended',
 					\]
 		"let g:vimtex_compiler_progname='nvr'
-	Plug 'wellle/targets.vim'
 	"Plug 'sheerun/vim-polyglot'
 	"	let g:polyglot_disabled = ['latex'] " conflict with vimtex
 	"	let g:python_highlight_space_errors=0
-	Plug 'airblade/vim-gitgutter'
-	Plug 'vimwiki/vimwiki'
 	  let g:vimwiki_key_mappings =
 		\ {
 		\   'all_maps': 1,
@@ -427,11 +402,9 @@ call plug#begin('~/.vim/plugged')
 		\   'html': 1,
 		\   'mouse': 0,
 		\ }
-	Plug 'easymotion/vim-easymotion'
 		map <space> <Plug>(easymotion-prefix)
 		let g:EasyMotion_verbose = 0
 		map S <Plug>(easymotion-s)
-	Plug 'dracula/vim', { 'as': 'dracula' }
 	"Plug 'mhinz/vim-signify'
 
 	"Plug 'ryanoasis/vim-devicons' "Adds file type icons to Vim plugins
@@ -477,18 +450,8 @@ call plug#begin('~/.vim/plugged')
 	"runtime syntax/colortest.vim
 
 	"for web development
-	Plug 'tpope/vim-surround'
-	Plug 'tpope/vim-repeat'
 	"Plug 'mattn/emmet-vim' "for html expansion
-	Plug 'alvan/vim-closetag'
-	Plug 'tweekmonster/django-plus.vim'
-	Plug 'MaxMEllon/vim-jsx-pretty'
 	"Plug 'mhinz/vim-startify'
-
-	Plug 'NickvanDyke/opencode.nvim'
-		" Recommended for ask()/select(); required if you want the "snacks" provider
-		Plug 'folke/snacks.nvim'
-call plug#end()
 
 "colorscheme	gruvbox
 colorscheme	dracula
@@ -708,7 +671,7 @@ command! -nargs=0 -bang M if <q-bang> == "!" && expand("%:t:e") =~# 'cpp\|c'
 			\| exe len(@%) ? "sp" : "e" "makefile"
 			\| endif
 
-command! -nargs=0 P to vert sp ~/.vim/plugged/
+command! -nargs=0 P execute 'topleft vertical split' fnameescape(stdpath('data').'/lazy')
 
 if has('nvim')
 	command! -nargs=0 X silent !chmod u+x %

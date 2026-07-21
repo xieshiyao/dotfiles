@@ -18,12 +18,13 @@
 !.config/nvim/
 !.config/nvim/coc-settings.json
 !.config/nvim/init.vim
+!.config/nvim/lazy-lock.json
+!.config/nvim/lua/
+!.config/nvim/lua/**
 
 !.vim/
 !.vim/skeleton.c
 !.vim/skeleton.cpp
 !.vim/skeleton.java
-!.vim/autoload/
-!.vim/autoload/plug.vim
 !.vim/spell/
 !.vim/spell/*
