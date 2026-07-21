@@ -9,6 +9,7 @@ return {
   "tpope/vim-fugitive",
   "tpope/vim-rhubarb",
   "vim-airline/vim-airline",
+  "ryanoasis/vim-devicons",
   "vim-scripts/matchit.zip",
   "vim-scripts/python_match.vim",
   {
