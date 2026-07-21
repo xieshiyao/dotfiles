@@ -100,11 +100,7 @@ if !exists(":DiffOrig")
 				\ | wincmd p | diffthis
 endif
 
-if has('nvim')
-	autocmd TermOpen * setlocal nonu
-else
-	autocmd TerminalOpen * setlocal nonu
-endif
+autocmd TermOpen * setlocal nonumber
 
 nnoremap <leader>zt :let saved=&fo<CR>
 			\:setl fo-=cro<CR>
@@ -113,18 +109,16 @@ nnoremap <leader>zt :let saved=&fo<CR>
 			\:unlet saved<CR>
 			\zti
 
-if has('nvim')
-	map <F29> <C-F5>
-	lmap <F29> <C-F5>
-	tmap <F29> <C-F5>
-	smap <F29> <C-F5>
-	imap <F29> <C-F5>
-	map <F17> <S-F5>
-	lmap <F17> <S-F5>
-	tmap <F17> <S-F5>
-	smap <F17> <S-F5>
-	imap <F17> <S-F5>
-endif
+map <F29> <C-F5>
+lmap <F29> <C-F5>
+tmap <F29> <C-F5>
+smap <F29> <C-F5>
+imap <F29> <C-F5>
+map <F17> <S-F5>
+lmap <F17> <S-F5>
+tmap <F17> <S-F5>
+smap <F17> <S-F5>
+imap <F17> <S-F5>
 
 "[ utils ]
 "TODO ( getreg() setreg() )
@@ -546,11 +540,9 @@ autocmd VimEnter * if exists('b:current_syntax') && b:current_syntax=="man"
 						\|nnoremap <buffer>q ZQ
 autocmd VimEnter * endif
 
-if has('nvim')
-	autocmd TermOpen * nnoremap <nowait><buffer>d 
-	autocmd TermOpen * nnoremap <buffer>u 
-	autocmd TermOpen * nnoremap <buffer>q ZQ
-endif
+autocmd TermOpen * nnoremap <nowait><buffer>d 
+autocmd TermOpen * nnoremap <buffer>u 
+autocmd TermOpen * nnoremap <buffer>q ZQ
 "autocmd FileType man nnoremap <buffer>- /^\s\+\zs-
 "autocmd FileType man nnoremap <buffer>- /\v^\s+(--?[a-zA-Z-]+,\s*)*\zs-
 "autocmd FileType man nnoremap <buffer>- /\v^\s+
@@ -613,9 +605,7 @@ command! -nargs=0 -bang M if <q-bang> == "!" && expand("%:t:e") =~# 'cpp\|c'
 
 command! -nargs=0 P execute 'topleft vertical split' fnameescape(stdpath('data').'/lazy')
 
-if has('nvim')
-	command! -nargs=0 X silent !chmod u+x %
-endif
+command! -nargs=0 X silent !chmod u+x %
 
 "c  cpp
 

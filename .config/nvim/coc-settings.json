@@ -73,8 +73,7 @@
 		"json",
 		"fugitive",
 		"diff",
-		"git",
-		"vim-plug"
+		"git"
 	],
 	"coc.preferences.formatOnType": true,
 	"coc.preferences.formatOnSave": true,
