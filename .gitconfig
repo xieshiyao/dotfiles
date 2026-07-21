@@ -3,6 +3,8 @@
 	name = Xie Shiyao
 [alias]
 	show-graph = log --graph --abbrev-commit --pretty=oneline
+    hist = log --decorate --pretty=format:'%C(yellow)%h%Creset%C(auto)%d%Creset %Cgreen%ad%Creset %s' --date=short --stat --summary
+    hist2 = log --stat --summary
 	exec = "!exec "    #shell alias are alaways executed in the top-level directory
 [http]
 	# sslCAInfo = /etc/pki/tls/certs/ca-bundle.crt
