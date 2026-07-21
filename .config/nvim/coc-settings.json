@@ -81,5 +81,7 @@
 	"codeLens.position": "eol",
 	"xml.java.home": "/opt/jdk-17.0.4.1+1",
 	"java.home": "/opt/jdk-17.0.4.1+1",
-	"suggest.noselect": true
+	"suggest.noselect": true,
+	"snippets.ultisnips.pythonPrompt": false,
+	"inlayHint.enable": false
 }
