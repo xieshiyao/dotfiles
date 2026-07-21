@@ -32,8 +32,4 @@ return {
   "alvan/vim-closetag",
   "tweekmonster/django-plus.vim",
   "MaxMEllon/vim-jsx-pretty",
-  {
-    "NickvanDyke/opencode.nvim",
-    dependencies = { "folke/snacks.nvim" },
-  },
 }

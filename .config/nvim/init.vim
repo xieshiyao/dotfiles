@@ -474,66 +474,6 @@ nnoremap gh <Cmd>call SaveMarks('<>')<CR>
 			\<Cmd>call RestoreMarks()<CR>
 
 
-"[ OpenCode Codex Claude Vibe ]
-" Configure snacks + opencode via Lua (still inside vimscript)
-lua << EOF
--- If you installed snacks.nvim, set it up (mirrors the lazy.nvim example)
-pcall(function()
-  require("snacks").setup({
-    input = {},
-    picker = {},
-    terminal = {},
-  })
-end)
-
--- opencode.nvim reads options from vim.g.opencode_opts
-vim.g.opencode_opts = {
-  -- Put your options here (see lua/opencode/config.lua in the repo).
-  -- Example: provider = { enabled = "terminal" }  -- (or "snacks", "kitty", etc.)
-}
-
--- Small Lua wrappers so Vimscript mappings stay clean
-_G.OpencodeAsk = function()
-  require("opencode").ask("@this: ", { submit = true })
-end
-_G.OpencodeSelect = function()
-  require("opencode").select()
-end
-_G.OpencodeToggle = function()
-  require("opencode").toggle()
-end
-_G.OpencodeHalfPageUp = function()
-  require("opencode").command("session.half.page.up")
-end
-_G.OpencodeHalfPageDown = function()
-  require("opencode").command("session.half.page.down")
-end
-EOF
-
-" Keymaps (vimscript)
-nnoremap <silent> <C-a> :lua OpencodeAsk()<CR>
-xnoremap <silent> <C-a> :lua OpencodeAsk()<CR>
-
-nnoremap <silent> <C-x> :lua OpencodeSelect()<CR>
-xnoremap <silent> <C-x> :lua OpencodeSelect()<CR>
-
-nnoremap <silent> <C-.> :lua OpencodeToggle()<CR>
-tnoremap <silent> <C-.> <C-\><C-n>:lua OpencodeToggle()<CR>
-
-" Operator-style mappings (expr)
-xnoremap <expr> go  luaeval('require("opencode").operator("@this ")')
-nnoremap <expr> go  luaeval('require("opencode").operator("@this ")')
-nnoremap <expr> goo luaeval('require("opencode").operator("@this ")') . "_"
-
-" Scroll mappings
-nnoremap <silent> <S-C-u> :lua OpencodeHalfPageUp()<CR>
-nnoremap <silent> <S-C-d> :lua OpencodeHalfPageDown()<CR>
-
-" Keep the README's suggestion to preserve +/- increment behavior if you use <C-a>/<C-x>
-nnoremap <silent> + <C-a>
-nnoremap <silent> - <C-x>
-
-
 "[ Alt key ]
 function! s:setAlt(key,...)
 	if a:0

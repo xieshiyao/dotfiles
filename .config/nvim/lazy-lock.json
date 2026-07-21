@@ -11,7 +11,7 @@
   "matchit.zip": { "branch": "master", "commit": "ced6c409c9beeb0b4142d21906606bd194411d1d" },
   "nerdcommenter": { "branch": "master", "commit": "a462bbda1e26f44fb3d3eb9d9d1c6a07aa98e665" },
   "nerdtree": { "branch": "master", "commit": "690d061b591525890f1471c6675bcb5bdc8cdff9" },
-  "opencode.nvim": { "branch": "main", "commit": "8cb752f295664ab0736ad4498f659324e506e074" },
+  "opencode.nvim": { "branch": "main", "commit": "427dd9c64c90dfa05479c52e5d6c9febdf31f83c" },
   "papercolor-theme": { "branch": "master", "commit": "0cfe64ffb24c21a6101b5f994ca342a74c977aef" },
   "python_match.vim": { "branch": "master", "commit": "20bb437d265544e7b8022b04cf2d6553d5f233ed" },
   "snacks.nvim": { "branch": "main", "commit": "882c996cf28183f4d63640de0b4c02ec886d01f2" },
