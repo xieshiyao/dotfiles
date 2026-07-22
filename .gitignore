@@ -18,7 +18,6 @@
 !.config/nvim/
 !.config/nvim/coc-settings.json
 !.config/nvim/init.vim
-!.config/nvim/lazy-lock.json
 !.config/nvim/lua/
 !.config/nvim/lua/**
 

@@ -18,6 +18,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
+  lockfile = vim.fn.stdpath("state") .. "/lazy-lock.json",
   spec = {
     { import = "plugins" },
   },
@@ -25,3 +26,11 @@ require("lazy").setup({
   checker = { enabled = false },
   change_detection = { notify = false },
 })
+
+vim.api.nvim_create_user_command("LazyConfig", function()
+  vim.cmd.edit(vim.fn.stdpath("config") .. "/lua/config/lazy.lua")
+end, { desc = "Edit lazy.nvim setup" })
+
+vim.api.nvim_create_user_command("LazyPlugins", function()
+  vim.cmd.edit(vim.fn.stdpath("config") .. "/lua/plugins/init.lua")
+end, { desc = "Edit lazy.nvim plugin list" })
