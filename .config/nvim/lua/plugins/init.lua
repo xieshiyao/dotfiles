@@ -7,7 +7,10 @@ return {
   {
     "preservim/nerdtree",
     cmd = { "NERDTree", "NERDTreeToggle" },
-    dependencies = { "ryanoasis/vim-devicons" },
+    dependencies = {
+      "ryanoasis/vim-devicons",
+      "tiagofumo/vim-nerdtree-syntax-highlight",
+    },
     keys = {
       { "<C-n>", "<Cmd>NERDTreeToggle<CR>", desc = "Toggle NERDTree" },
     },
