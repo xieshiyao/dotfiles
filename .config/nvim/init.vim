@@ -335,7 +335,16 @@ lua require('config.lazy')
 	"Plug 'shime/vim-livedown'
 		let g:SimpylFold_docstring_preview=1
 		let g:AutoPairsShortcutToggle=''  "Default is '<M-p>'
-		map <C-n> <Cmd>NERDTreeToggle<CR>
+		function! s:ToggleNERDTree()
+			NERDTreeToggle
+			if &filetype ==# 'nerdtree'
+				sleep 100m
+				setlocal conceallevel=1
+				setlocal conceallevel=2
+				redraw!
+			endif
+		endfunction
+		map <C-n> <Cmd>call <SID>ToggleNERDTree()<CR>
 		autocmd FileType nerdtree nnoremap  <buffer>/  /\c
 		"let g:airline_powerline_fonts = 1
 		"let g:airline_left_sep =  "\uE0C0"
