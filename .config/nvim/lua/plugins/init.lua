@@ -4,12 +4,18 @@ return {
   "vim/killersheep",
   "tmhedberg/SimpylFold",
   "jiangmiao/auto-pairs",
-  "preservim/nerdtree",
+  {
+    "preservim/nerdtree",
+    cmd = { "NERDTree", "NERDTreeToggle" },
+    dependencies = { "ryanoasis/vim-devicons" },
+    keys = {
+      { "<C-n>", "<Cmd>NERDTreeToggle<CR>", desc = "Toggle NERDTree" },
+    },
+  },
   "preservim/nerdcommenter",
   "tpope/vim-fugitive",
   "tpope/vim-rhubarb",
   "vim-airline/vim-airline",
-  "ryanoasis/vim-devicons",
   "vim-scripts/matchit.zip",
   "vim-scripts/python_match.vim",
   {
