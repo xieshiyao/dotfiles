@@ -465,7 +465,7 @@ function! OpenGithub()
 	call jobstart(['firefox','https://github.com/'.repo])
 endfunction
 nnoremap gh <Cmd>call SaveMarks('<>')<CR>
-			\vi'<Esc>
+			\vi"<Esc>
 			\<Cmd>call OpenGithub()<CR>
 			\<Cmd>call RestoreMarks()<CR>
 
