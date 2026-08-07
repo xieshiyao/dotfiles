@@ -32,7 +32,14 @@ return {
   "lervag/vimtex",
   "wellle/targets.vim",
   "airblade/vim-gitgutter",
-  "vimwiki/vimwiki",
+  {
+    "vimwiki/vimwiki",
+    init = function()
+      -- Don't claim every .md file on the system as a temporary wiki; vimwiki
+      -- manages only files inside a registered wiki path, so .md stays markdown.
+      vim.g.vimwiki_global_ext = 0
+    end,
+  },
   "easymotion/vim-easymotion",
   { "dracula/vim", name = "dracula" },
   {
