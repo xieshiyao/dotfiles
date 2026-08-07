@@ -472,7 +472,7 @@ endif
 
 function! OpenGithub()
 	let repo=getline(line("."))[col("'<")-1:col("'>")-1]
-	call jobstart(['firefox','https://github.com/'.repo])
+	call luaeval('vim.ui.open(_A)', 'https://github.com/'.repo)
 endfunction
 nnoremap gh <Cmd>call SaveMarks('<>')<CR>
 			\vi"<Esc>
