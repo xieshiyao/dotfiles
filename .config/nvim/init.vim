@@ -31,6 +31,13 @@ cnoremap <Left> <Space><BS><Left>
 cnoremap <Right> <Space><BS><Right>
 cnoremap <F8> \<\><Left><Left>
 
+" [ lazy.nvim ] [ plugins ]
+"Must stay above `syntax on`: that runs `filetype on` internally, which detects
+"the filetype of a file given on the command line. Load lazy first so its
+"ft-lazy handlers are registered before that event fires, otherwise `nvim x.md`
+"never triggers them.
+lua require('config.lazy')
+
 syntax on
 
 "Stop highlighting temporary and clean all messages in command line
@@ -253,9 +260,7 @@ autocmd FileType vim,help,python nnoremap <buffer><leader>R	<Cmd>let b:winview=w
 													\<bar>call winrestview(b:winview)
 												\<bar>endif<CR>
 
-" [ lazy.nvim ] [ plugins ] [ coc ]
-lua require('config.lazy')
-
+" [ plugins ] [ coc ]
 			let g:vista_default_executive = 'coc'
 			nnoremap <Leader>v <Cmd>Vista!!<CR>
 
