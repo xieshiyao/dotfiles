@@ -40,6 +40,11 @@ lua require('config.lazy')
 
 syntax on
 
+" [ markdown ] [ pandoc ]
+":MdPreviewPandoc / <Leader>mP -- for \[ \] and \( \) math, which
+"markdown-preview.nvim (<Leader>mp) cannot parse
+lua require('config.mdpandoc')
+
 "Stop highlighting temporary and clean all messages in command line
 nnoremap <Esc> <Cmd>nohlsearch<bar>echo ''<bar>call coc#float#close_all()<CR>
 nnoremap J	J<Cmd>exe CurrentChar()==' '?'norm! x':''<CR>
