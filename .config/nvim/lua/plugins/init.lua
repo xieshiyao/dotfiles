@@ -40,6 +40,19 @@ return {
       vim.g.vimwiki_global_ext = 0
     end,
   },
+  {
+    "iamcco/markdown-preview.nvim",
+    -- "vimwiki" covers .md files that really are inside a registered wiki
+    ft = { "markdown", "vimwiki" },
+    build = function() vim.fn["mkdp#util#install_sync"]() end,
+    init = function()
+      vim.g.mkdp_filetypes = { "markdown", "vimwiki" }
+    end,
+    keys = {
+      { "<Leader>mp", "<Cmd>MarkdownPreviewToggle<CR>", ft = { "markdown", "vimwiki" },
+        desc = "Toggle markdown preview" },
+    },
+  },
   "easymotion/vim-easymotion",
   { "dracula/vim", name = "dracula" },
   {
