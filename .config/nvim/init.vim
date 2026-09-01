@@ -45,8 +45,6 @@ syntax on
 "markdown-preview.nvim (<Leader>mp) cannot parse
 lua require('config.mdpandoc')
 
-"Stop highlighting temporary and clean all messages in command line
-nnoremap <Esc> <Cmd>nohlsearch<bar>echo ''<bar>call coc#float#close_all()<CR>
 nnoremap J	J<Cmd>exe CurrentChar()==' '?'norm! x':''<CR>
 "nnoremap <leader>f gg=G
 noremap <F12> @a
@@ -260,215 +258,10 @@ imap	<S-F5>		<Esc><S-F5>
 
 " run the codes in current screen
 autocmd FileType vim,help,python nnoremap <buffer><leader>R	<Cmd>let b:winview=winsaveview()
-												\<bar>exe line('w0').",".line('w$').'call <SID>run()'
-												\<bar>if exists('b:winview')
-													\<bar>call winrestview(b:winview)
-												\<bar>endif<CR>
-
-" [ plugins ] [ coc ]
-			let g:vista_default_executive = 'coc'
-			nnoremap <Leader>v <Cmd>Vista!!<CR>
-
-		inoremap <silent><expr> <TAB>
-			  \ coc#pum#visible() ? coc#pum#next(1):
-			  \ CheckBackspace() ? 
-			  \ &ft=="haskell" ? " " : "\<Tab>" :
-			  \ coc#refresh()
-		inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
-
-		"function! s:check_back_no_identifier() abort
-		"  let col = col('.') - 1
-		"  return !col || getline('.')[col - 1]  !~# '\w\|\.'
-		"endfunction
-		function! CheckBackspace() abort
-		  let col = col('.') - 1
-		  return !col || getline('.')[col - 1]  =~# '\s'
-		endfunction
-
-		inoremap <silent><expr><C-Space> coc#refresh()
-
-		nnoremap <expr><C-f> coc#float#has_float() ? coc#float#float_scroll(1) : "\<C-f>"
-		nnoremap <expr><C-b> coc#float#has_float() ? coc#float#float_scroll(0) : "\<C-b>"
-
-		nnoremap <expr><Tab> "\<Cmd>silent! call " . (coc#float#has_float() 
-					\? "coc#float#close_all()"
-					\: "CocAction('doHover')" 
-					\) . "<CR>"
-		nnoremap <C-P> <C-I>
-
-		nmap <silent>[e <Plug>(coc-diagnostic-prev)
-		nmap <silent>]e <Plug>(coc-diagnostic-next)
-
-		nmap <silent>gd <Plug>(coc-definition)
-		nmap <silent><leader>gt <Plug>(coc-type-definition)
-		nmap <silent>gi <Plug>(coc-implementation)
-		nmap <silent>gr <Plug>(coc-references)
-		
-		nmap <silent><leader>F  <Plug>(coc-fix-current)
-
-		nmap <silent><F1> <Plug>(coc-codelens-action)
-
-		nmap <silent><leader>ac  <Plug>(coc-codeaction)
-		vmap <silent><leader>ac  <Plug>(coc-codeaction-selected)
-
-		inoremap <silent><CR> <C-g>u<CR><C-r>=coc#on_enter()<CR>
-
-		nmap <F8> <Plug>(coc-rename)
-
-		nnoremap <leader>f <Cmd>call CocAction('format')<CR>
-		"autocmd BufWrite * silent call CocAction('format')
-
-		set updatetime=300
-		autocmd CursorHold * silent call CocActionAsync('highlight')
-		nnoremap <LeftMouse> <LeftMouse><Cmd>call CocActionAsync('highlight')<CR>
-
-		let g:coc_global_extensions=['coc-json','coc-tsserver','coc-css',
-					\'coc-vimlsp','coc-pyright','coc-omnisharp','coc-go','coc-java',
-					\'coc-snippets','coc-html','coc-xml','coc-ultisnips',
-					\'coc-marketplace','coc-highlight',
-					\'coc-vimtex','coc-docker']
-		"autocmd FileType python let b:coc_root_patterns = ['.iamroot','.git', '.env', 'venv', '.venv', 'setup.cfg', 'setup.py', 'pyproject.toml', 'pyrightconfig.json']
-
-		"inoremap <expr><cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-	"Plug 'fatih/vim-go'
-		"let g:go_fmt_command = "goimports"
-		"autocmd FileType go nnoremap <buffer><leader>r <Cmd>GoRun %<CR>
-		"autocmd FileType go nnoremap <buffer><leader>b <Cmd>GoBuild<CR>
-		"autocmd FileType go nnoremap <buffer><leader>i <Cmd>GoImport 
-		"autocmd FileType go nnoremap <buffer><leader>I <Cmd>GoImports<CR>
-		"autocmd FileType go nnoremap <buffer><leader>f <Cmd>GoFmt<CR>
-	"Plug 'chrisbra/changesPlugin'
-	"Plug 'johngrib/vim-game-code-break'
-	"Plug 'johngrib/vim-game-snake'
-	"Plug 'suan/vim-instant-markdown'
-	"Plug 'shime/vim-livedown'
-		let g:SimpylFold_docstring_preview=1
-		let g:AutoPairsShortcutToggle=''  "Default is '<M-p>'
-		autocmd FileType nerdtree nnoremap  <buffer>/  /\c
-		"let g:airline_powerline_fonts = 1
-		"let g:airline_left_sep =  "\uE0C0"
-		"let g:airline_right_sep = "\uE0C2"
-		"let g:airline_focuslost_inactive = 1
-		"Plug 'vim-airline/vim-airline-themes'
-		let g:UltiSnipsEditSplit='horizontal'
-		let g:UltiSnipsExpandTrigger='<C-j>'
-		" TODO use different Trigger for Expansion and JumpForward
-		let g:UltiSnipsSnippetsDir=$HOME.'/myUltiSnips/'
-		let g:UltiSnipsSnippetDirectories=[$HOME."/myUltiSnips", "UltiSnips"]
-		"let g:UltiSnipsJumpForwardTrigger = '<C-j>'
-		"let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
-		let g:gruvbox_contrast_dark='hard'
-		command! -nargs=? -complete=custom,s:SoftMediumHard Theme 
-					\if len(<q-args>)>0
-						\|exe 'let g:gruvbox_contrast_'.&bg.'=<q-args>' 
-						\|colorscheme gruvbox
-					\|else
-						\|echohl Title
-						\|echo "g:gruvbox_contrast_light=".g:gruvbox_contrast_light 
-						\"g:gruvbox_contrast_dark=".g:gruvbox_contrast_dark
-						\|echohl None
-					\|endif
-		function! s:SoftMediumHard(_,__,___)
-			return join(['soft','medium','hard'],"\n")
-		endfunction
-		vmap <expr>  ++  VMATH_YankAndAnalyse()
-		nmap         ++  vip++
-		vmap <expr> <left> DVB_Drag('left')
-		vmap <expr> <right> DVB_Drag('right')
-		vmap <expr> <down> DVB_Drag('down')
-		vmap <expr> <up> DVB_Drag('up')
-		vmap <expr> D DVB_Duplicate()
-
-		let g:tex_flavor='latex'
-		let g:vimtex_fold_enabled=1
-		let g:vimtex_quickfix_ignore_filters=[
-					\ 'Underfull',
-					\ 'Overfull',
-					\ 'relsize Warning',
-					\ 'usage of the caption package is not recommended',
-					\]
-		"let g:vimtex_compiler_progname='nvr'
-	"Plug 'sheerun/vim-polyglot'
-	"	let g:polyglot_disabled = ['latex'] " conflict with vimtex
-	"	let g:python_highlight_space_errors=0
-	  let g:vimwiki_key_mappings =
-		\ {
-		\   'all_maps': 1,
-		\   'global': 1,
-		\   'headers': 1,
-		\   'text_objs': 1,
-		\   'table_format': 1,
-		\   'table_mappings': 0,
-		\   'lists': 1,
-		\   'links': 1,
-		\   'html': 1,
-		\   'mouse': 0,
-		\ }
-		map <space> <Plug>(easymotion-prefix)
-		let g:EasyMotion_verbose = 0
-		map S <Plug>(easymotion-s)
-	"Plug 'mhinz/vim-signify'
-
-	"Plug 'ryanoasis/vim-devicons' "Adds file type icons to Vim plugins
-		"let g:webdevicons_enable_airline_statusline=0
-" NERDTrees File highlighting
-"function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
-" exec 'autocmd FileType nerdtree highlight lalala' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
-" exec 'autocmd FileType nerdtree syn match lalala' . a:extension .' #^\s\+.*'. a:extension .'$#'
-"endfunction
-"
-"call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
-"call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
-"call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
-"call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#151515')
-"call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#151515')
-"call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#151515')
-"call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
-"call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
-"call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#151515')
-"call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
-"call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
-"call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
-"call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
-"call NERDTreeHighlightFile('ds_store', 'Gray', 'none', '#686868', '#151515')
-"call NERDTreeHighlightFile('gitconfig', 'Gray', 'none', '#686868', '#151515')
-"call NERDTreeHighlightFile('gitignore', 'Gray', 'none', '#686868', '#151515')
-"call NERDTreeHighlightFile('bashrc', 'Gray', 'none', '#686868', '#151515')
-"call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#151515')
-"
-"call NERDTreeHighlightFile('cpp', 'blue', 'none', 'blue', '#151515')
-"call NERDTreeHighlightFile('py', 'lightblue', 'none', 'lightblue', '#151515')
-"call NERDTreeHighlightFile('c', 'lightgreen', 'none', 'lightgreen', '#151515')
-"call NERDTreeHighlightFile('tex', 'brown', 'none', 'brown', '#151515')
-"call NERDTreeHighlightFile('rpm', 'red', 'none', 'darkred', '#151515')
-"call NERDTreeHighlightFile('zip', 'red', 'none', 'darkred', '#151515')
-"call NERDTreeHighlightFile('go', 'lightblue', 'none', 'lightblue', '#151515')
-"call NERDTreeHighlightFile('exe', 'grey', 'none', 'grey', '#151515')
-"call NERDTreeHighlightFile('jpeg', 'magenta', 'none', 'magenta', '#151515')
-"call NERDTreeHighlightFile('jpg', 'magenta', 'none', 'magenta', '#151515')
-"call NERDTreeHighlightFile('png', 'magenta', 'none', 'magenta', '#151515')
-"call NERDTreeHighlightFile('gif', 'magenta', 'none', 'magenta', '#151515')
-"call NERDTreeHighlightFile('mp4', 'magenta', 'none', 'magenta', '#151515')
-	"runtime syntax/colortest.vim
-
-	"for web development
-	"Plug 'mattn/emmet-vim' "for html expansion
-	"Plug 'mhinz/vim-startify'
-
-"colorscheme	gruvbox
-colorscheme	dracula
-highlight Cursor cterm=reverse gui=reverse ctermfg=NONE ctermbg=NONE guifg=NONE guibg=NONE
-highlight! link lCursor Cursor
-set guicursor=n-v-c-sm:block-Cursor,i-ci-ve:ver25-Cursor,r-cr-o:hor20-Cursor,t:block-blinkon500-blinkoff500-Cursor
-if !has("mac")
-	set termguicolors
-endif
-" TODO
-" write a command to toggle
-" - backgroud
-" - colorscheme
-" - options for that colorscheme
+											\<bar>exe line('w0').",".line('w$').'call <SID>run()'
+											\<bar>if exists('b:winview')
+												\<bar>call winrestview(b:winview)
+											\<bar>endif<CR>
 
 function! OpenGithub()
 	let repo=getline(line("."))[col("'<")-1:col("'>")-1]
@@ -716,26 +509,9 @@ else
 endif
 
 autocmd Filetype javascript nnoremap <F5> <Cmd>update %<bar>Te node %<CR>
-autocmd FileType htmldjango let b:AutoPairs=AutoPairsDefine({'{%':'%}','{#':'#}'})
 
 " [ Haskell ]
 autocmd FileType haskell nnoremap <buffer><F5>		<Cmd>update<bar>Te runghc %<CR>
-
-" [ latex ]
-autocmd FileType tex let b:AutoPairs={
-			\'(':')',
-			\'[':']',
-			\ '{':'}',
-			\"'":"'",
-			\'"':'"',
-			\ '"""':'"""',
-			\ "'''":"'''",
-			\
-			\ '$':'$',
-			\}
-let g:tex_fold_enabled=1
-"autocmd FileType tex inoremap <buffer>\[   \[  \]<left><left><left>
-"TODO don't map \[, map \!!!
 
 " [ bash, shell ]
 autocmd FileType sh nnoremap <buffer><F5>	<Cmd>update<bar>Te bash %<CR>
