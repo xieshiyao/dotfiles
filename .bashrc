@@ -132,35 +132,53 @@ atcoderWait()
 
 atcoderDownload()
 {
-	case $# in
-		1)
-			startTime=21:00:00
-			;;
-		2)
-			startTime=$2
-			;;
-		*)
-			echo "Usage: $FUNCNAME contest-id [start-time]"
-			return 1
-			;;
-	esac
+    if [[ $# -lt 1 || $# -gt 2 ]]; then
+        echo "Usage: atcoderDownload contest-id [now|HH:MM[:SS]]" >&2
+        return 2
+    fi
 
-	if [ $(basename $PWD) != atcoder ]; then
-		for ((i=0;i<5;i++)); do
-			echo "You may in the wrong directory." >&2
-		done
-	fi
+    local contest=$1 start_time=${2:-21:00:00}
+    local target_time current_time delay
+    if [[ ! $contest =~ ^[a-zA-Z0-9][a-zA-Z0-9_-]*$ ]]; then
+        echo "Invalid contest ID: $contest" >&2
+        return 2
+    fi
+    command -v acc >/dev/null 2>&1 || {
+        echo "acc is missing. Install it with: npm install -g atcoder-cli" >&2
+        return 127
+    }
+    command -v oj >/dev/null 2>&1 || {
+        echo "oj is missing. Install it with: pipx install online-judge-tools" >&2
+        return 127
+    }
 
-	difference=$(( $(date -d $startTime +%s) - $(date +%s) ))
-	echo "Will start trying download at $(date -d $startTime)($difference seconds after)."
-	sleep $difference
-	while true; do
-		acc new $1
-		if [ -f $1/a/main.cpp ]; then
-			cd $1/a
-			break
-		fi
-	done
+    if [[ $start_time != now ]]; then
+        if [[ ! $start_time =~ ^([01][0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$ ]]; then
+            echo "Invalid start time: $start_time. Use now or HH:MM[:SS]." >&2
+            return 2
+        fi
+        [[ ${#start_time} -eq 5 ]] && start_time+=:00
+        if [[ $(uname -s) == Darwin ]]; then
+            target_time=$(date -j -f '%H:%M:%S' "$start_time" +%s) || return
+        else
+            target_time=$(date -d "$start_time" +%s) || return
+        fi
+        current_time=$(date +%s) || return
+        delay=$((target_time - current_time))
+        if (( delay > 0 )); then
+            echo "Waiting $delay seconds until $start_time."
+            sleep "$delay" || return
+        fi
+    fi
+
+    echo "Downloading $contest..."
+    while true; do
+        acc new "$contest" --choice all
+        if [[ -f $contest/a/main.cpp ]]; then
+            cd "$contest/a" || return
+            break
+        fi
+    done
 }
 
 #set -o vi # hang onto your hat
