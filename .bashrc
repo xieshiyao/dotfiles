@@ -97,37 +97,77 @@ done
 
 atcoderWait()
 {
-	case $# in
-		1)
-			startTime=21:00:00
-			;;
-		2)
-			startTime=$2
-			;;
-		*)
-			echo "Usage: $FUNCNAME contest-id [start-time]"
-			return 1
-			;;
-	esac
+    if [[ $# -lt 1 || $# -gt 2 ]]; then
+        echo "Usage: atcoderWait contest-id [now|HH:MM[:SS]]" >&2
+        return 2
+    fi
 
-	if [ $(basename $PWD) != atcoder ]; then
-		for ((i=0;i<5;i++)); do
-			echo "You may be in the wrong directory." >&2
-		done
-	fi
+    local contest=$1 start_time=${2:-21:00:00}
+    local target_time current_time delay target dependency
+    if [[ ! $contest =~ ^[a-zA-Z0-9][a-zA-Z0-9_-]*$ ]]; then
+        echo "Invalid contest ID: $contest" >&2
+        return 2
+    fi
+    for dependency in node nvim; do
+        command -v "$dependency" >/dev/null 2>&1 || {
+            echo "$dependency is missing; install it before running atcoderWait." >&2
+            return 127
+        }
+    done
 
-	difference=$(( $(date -d $startTime +%s) - $(date +%s) ))
-	echo "Will start trying \`cd $1 && nvim a/main.cpp\` at $(date -d $startTime)($difference seconds later)."
-	sleep $difference
-	while true; do
-		if [ -f $1/a/main.cpp ]; then
-			cd $1/a
-			nvim main.cpp
-			break
-		fi
-		echo -n 🐍
-		sleep 1
-	done
+    if [[ $start_time != now ]]; then
+        if [[ ! $start_time =~ ^([01][0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$ ]]; then
+            echo "Invalid start time: $start_time. Use now or HH:MM[:SS]." >&2
+            return 2
+        fi
+        [[ ${#start_time} -eq 5 ]] && start_time+=:00
+        if [[ $(uname -s) == Darwin ]]; then
+            target_time=$(date -j -f '%H:%M:%S' "$start_time" +%s) || return
+        else
+            target_time=$(date -d "$start_time" +%s) || return
+        fi
+        current_time=$(date +%s) || return
+        delay=$((target_time - current_time))
+        if (( delay > 0 )); then
+            echo "Waiting $delay seconds until $start_time."
+            sleep "$delay" || return
+        fi
+    fi
+
+    echo "Waiting for $contest's first task... Press Ctrl-C to stop."
+    while true; do
+        if [[ -f $contest/contest.acc.json ]]; then
+            target=$(node - "$contest" <<'NODE'
+const fs = require('fs');
+const path = require('path');
+const root = process.argv[2];
+try {
+    const project = JSON.parse(fs.readFileSync(path.join(root, 'contest.acc.json'), 'utf8'));
+    const directory = project.tasks[0].directory;
+    if (project.contest.id !== root || !directory) process.exit(1);
+    const taskPath = path.join(root, directory.path);
+    if (!fs.statSync(taskPath).isDirectory()) process.exit(1);
+    const target = directory.submit ? path.join(taskPath, directory.submit) : taskPath;
+    if (directory.submit && !fs.statSync(target).isFile()) process.exit(1);
+    console.log(target);
+} catch (_) {
+    // The downloader may still be creating files or updating the metadata.
+    process.exitCode = 1;
+}
+NODE
+            ) && {
+                if [[ -d $target ]]; then
+                    cd "$target" || return
+                    nvim .
+                else
+                    cd "${target%/*}" || return
+                    nvim -- "${target##*/}"
+                fi
+                return $?
+            }
+        fi
+        sleep 1 || return
+    done
 }
 
 atcoderDownload()
@@ -138,7 +178,7 @@ atcoderDownload()
     fi
 
     local contest=$1 start_time=${2:-21:00:00}
-    local target_time current_time delay
+    local target_time current_time delay task_dir status
     if [[ ! $contest =~ ^[a-zA-Z0-9][a-zA-Z0-9_-]*$ ]]; then
         echo "Invalid contest ID: $contest" >&2
         return 2
@@ -173,10 +213,51 @@ atcoderDownload()
 
     echo "Downloading $contest..."
     while true; do
-        acc new "$contest" --choice all
-        if [[ -f $contest/a/main.cpp ]]; then
-            cd "$contest/a" || return
-            break
+        if [[ -f $contest/contest.acc.json ]]; then
+            # acc can report errors with exit status zero. Check its task records.
+            task_dir=$(node - "$contest" <<'NODE'
+const fs = require('fs');
+const path = require('path');
+const root = process.argv[2];
+try {
+    const project = JSON.parse(fs.readFileSync(path.join(root, 'contest.acc.json'), 'utf8'));
+    const tasks = project.tasks;
+    if (project.contest.id !== root || !Array.isArray(tasks) || tasks.length === 0) {
+        throw new Error('No matching contest tasks are recorded.');
+    }
+    for (const task of tasks) {
+        const directory = task.directory;
+        if (!directory || !fs.statSync(path.join(root, directory.path)).isDirectory()) {
+            throw new Error('Task setup is incomplete.');
+        }
+        if (directory.submit && !fs.statSync(path.join(root, directory.path, directory.submit)).isFile()) {
+            throw new Error('A task submission file is missing.');
+        }
+    }
+    console.log(path.join(root, tasks[0].directory.path));
+} catch (error) {
+    console.error('Cannot confirm completed task setup: ' + error.message);
+    process.exitCode = 1;
+}
+NODE
+            ) || {
+                echo "$contest is incomplete; existing files were kept. Inspect it before retrying. Missing tasks can be added with: (cd $contest && acc add --choice all)" >&2
+                return 1
+            }
+            cd "$task_dir" || return
+            return 0
+        fi
+        if [[ -e $contest ]]; then
+            echo "$contest already exists without contest.acc.json; stopped without changing it." >&2
+            return 1
+        fi
+        acc new "$contest" --choice all || {
+            status=$?
+            (( status >= 128 )) && return "$status"
+        }
+        if [[ ! -e $contest ]]; then
+            echo "Contest not downloaded yet; retrying in 1 seconds. Press Ctrl-C to stop." >&2
+            sleep 1 || return
         fi
     done
 }
