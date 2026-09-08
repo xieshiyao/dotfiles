@@ -20,6 +20,8 @@
 !.config/nvim/init.vim
 !.config/nvim/lua/
 !.config/nvim/lua/**
+!.config/atcoder-cli-nodejs/
+!.config/atcoder-cli-nodejs/**
 
 !.vim/
 !.vim/skeleton.c
