@@ -9,6 +9,7 @@
 !.gitconfig
 !.inputrc
 !.latexmkrc
+!.tmux.conf
 !package.json
 
 !myUltiSnips/
