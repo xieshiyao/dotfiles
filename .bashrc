@@ -9,6 +9,19 @@ fi
 # export SYSTEMD_PAGER=
 
 # User specific aliases and functions
+ssh() {
+    local ssh_rc=0
+
+    command ssh "$@" || ssh_rc=$?
+
+    # Disable mouse reporting when SSH returns to the local shell.
+    if [[ -t 1 ]]; then
+        printf '\033[?1000l\033[?1002l\033[?1003l\033[?1006l'
+    fi
+
+    return "$ssh_rc"
+}
+
 parse_git_branch() {
      git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
